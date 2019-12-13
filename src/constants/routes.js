@@ -1,0 +1,16 @@
+//auth
+export const SIGN_UP = '/signup';
+export const SIGN_IN = '/signin';
+export const FORGOT = '/forgot';
+
+//draw/home
+export const CREATE = '/';
+
+//account
+export const ACCOUNT = '/account';
+
+//share
+export const STORY = '/story/:id';
+
+//help
+export const HELP = '/help';
