@@ -1,19 +1,11 @@
 import app from 'firebase/app';
 import 'firebase/auth';
+import Config from './config'
 
-const config = {
-  apiKey: "AIzaSyAteebQLCFtzi70eOHkoyR3nEVfylWVGfM",
-  authDomain: "storytime-261823.firebaseapp.com",
-  databaseURL: "https://storytime-261823.firebaseio.com",
-  projectId: "storytime-261823",
-  storageBucket: "storytime-261823.appspot.com",
-  messagingSenderId: "1008445946394",
-  appId: "1:1008445946394:web:2300d3f52ff4ba09d1afa3"
-};
 
 export default class Firebase {
   constructor() {
-    app.initializeApp(config);
+    app.initializeApp(Config);
     this.auth = app.auth();
 
   }
