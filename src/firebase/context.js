@@ -4,8 +4,8 @@ const FirebaseContext = React.createContext(null);
 
 export default FirebaseContext; //for wrapping jsx
 
-export const withFirebase = Component => props =>  ( //HOC alternative
+export const withFirebase = InnerComponent => props =>  ( //HOC alternative
   <FirebaseContext.Consumer>
-    {fb => <Component {...props} firebase={fb} />}
+    {fb => <InnerComponent {...props} firebase={fb} />}
   </FirebaseContext.Consumer>
 );

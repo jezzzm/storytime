@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../../firebase';
+import { GoogleSignIn } from './SignIn';
 import * as ROUTES from '../../constants/routes'
 
 
@@ -9,7 +10,8 @@ const SignUp = () => (
   <div>
     <h1>Sign Up</h1>
     <SignUpForm />
-    <SignUpLink />
+    <GoogleSignIn />
+    <SignInLink />
   </div>
 );
 
@@ -42,11 +44,7 @@ class SignUpFormBase extends Component {
       .catch(error => this.setState({ error }));
   };
 
-  onChange = e => {
-    this.setState({[e.target.name]: e.target.value})
-  };
-
-
+  onChange = e => this.setState({[e.target.name]: e.target.value});
 
   render() {
     const {username, email, password, passwordConf, error } = this.state;
@@ -64,7 +62,8 @@ class SignUpFormBase extends Component {
             value={username}
             onChange={this.onChange}
             type="text"
-            placeholder="Full Name"
+            placeholder="Username"
+            autoComplete="on"
           />
           <input
             name="email"
@@ -72,6 +71,7 @@ class SignUpFormBase extends Component {
             onChange={this.onChange}
             type="text"
             placeholder="Email Address"
+            autoComplete="on"
           />
           <input
             name="password"
@@ -79,6 +79,7 @@ class SignUpFormBase extends Component {
             onChange={this.onChange}
             type="password"
             placeholder="Password"
+            autoComplete="on"
           />
           <input
             name="passwordConf"
@@ -86,6 +87,7 @@ class SignUpFormBase extends Component {
             onChange={this.onChange}
             type="password"
             placeholder="Confirm Password"
+            autoComplete="on"
           />
         <button type="submit" disabled={isInvalid}>Sign Up</button>
         {error && <p>{error.message}</p>}
@@ -93,25 +95,9 @@ class SignUpFormBase extends Component {
     );
   }
 }
-const SignUpLinkBase = (props) => {
-  const _handleGoogle = (e) => {
-    e.preventDefault();
-    props.firebase.doSignInWithGoogle();
-  }
 
-  return (
-    <div>
-      <p>
-        Don't have an account? Sign Up
-      </p>
-      <p>
-        <a href="#" onClick={_handleGoogle}>Sign in with Google</a>
-      </p>
-    </div>
-  );
-};
+const SignInLink = () => <p>Already have an account? <Link to="/signin">Sign In</Link></p>;
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
-const SignUpLink = withFirebase(SignUpLinkBase);
 export default SignUp;
-export { SignUpForm, SignUpLink };
+export { SignUpForm };

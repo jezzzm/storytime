@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+import SignOut from '../auth/SignOut';
+import { withAuth } from '../auth/context';
 
 const Navigation = () => (
   <div>
@@ -20,8 +22,11 @@ const Navigation = () => (
       <li>
         <Link to={ROUTES.ACCOUNT}>Account</Link>
       </li>
+      <li>
+        <SignOut />
+      </li>
     </ul>
   </div>
 );
 
-export default Navigation;
+export default withAuth(Navigation);

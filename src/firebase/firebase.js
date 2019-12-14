@@ -18,13 +18,8 @@ export default class Firebase {
   doSignInWithGoogle = () => {
     const provider = new app.auth.GoogleAuthProvider();
 
-    this.auth
-      .signInWithPopup(provider)
-      .then(res => {
-        const user = res.user;
-        console.log(user);
-      })
-      .catch(console.log);
+    return this.auth.signInWithPopup(provider);
+
   };
 
   doSignOut = () => this.auth.signOut();
