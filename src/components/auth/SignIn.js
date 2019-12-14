@@ -9,6 +9,7 @@ const SignIn = () => (
   <div>
     <h1>Sign In</h1>
     <SignInForm />
+    <ForgotLink />
     <GoogleSignIn />
     <SignUpLink />
   </div>
@@ -36,7 +37,8 @@ class SignInFormBase extends Component {
         this.props.history.push(ROUTES.CREATE);
       })
       .catch(error => {
-        this.setState({ error });
+
+        this.setState({ ...INITIAL_STATE, error });
       });
   };
 
@@ -74,6 +76,8 @@ class SignInFormBase extends Component {
   }
 }
 
+const ForgotLink = () => <p><Link to={ROUTES.FORGOT}>Forgot Password?</Link></p>;
+
 const SignUpLink = () => <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>;
 
 const GoogleSignInBase = ({ firebase, history }) => {
@@ -93,4 +97,3 @@ export const GoogleSignIn = withRouter(withFirebase(GoogleSignInBase));
 export const SignInForm = withRouter(withFirebase(SignInFormBase));
 
 export default SignIn;
-// export { SignInForm, GoogleSignIn };

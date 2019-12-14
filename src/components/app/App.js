@@ -11,8 +11,10 @@ import withAuthProvider from '../auth/withAuthProvider';
 import Navigation from './Navigation';
 import SignUp from '../auth/SignUp';
 import SignIn from '../auth/SignIn';
-import Forgot from '../auth/Forgot';
+import PasswordForgot from '../auth/PasswordForgot';
+import PasswordChange from '../auth/PasswordChange';
 import Create from '../Create';
+import Creations from '../Creations'
 import Account from '../Account';
 import Help from '../Help';
 import Story from '../Story';
@@ -21,12 +23,13 @@ const App = () => (
     <Router>
       <div>
         <Navigation />
-        <hr />
         <Route exact path={ROUTES.CREATE} component={Create} />
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.SIGN_IN} component={SignIn} />
-        <Route path={ROUTES.FORGOT} component={Forgot} />
+        <Route path={ROUTES.FORGOT} component={PasswordForgot} />
+        <Route path={ROUTES.CHANGE} component={PasswordChange} />
         <Route path={ROUTES.ACCOUNT} component={Account} />
+        <Route path={ROUTES.CREATIONS} component={Creations} />
         <Route path={ROUTES.STORY} component={Story} />
         <Route path={ROUTES.HELP} component={Help} />
       </div>

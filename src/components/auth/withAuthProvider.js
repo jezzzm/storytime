@@ -12,19 +12,14 @@ const withAuthProvider = InnerComponent => {
     }
 
     componentDidMount() {
-      console.log(this.props);
-      this.listener = this.props.firebase.auth.onAuthStateChanged(
-        authUser => {
-          console.log(authUser)
-          authUser
-            ? this.setState({ authUser })
-            : this.setState({ authUser: null });
-        },
-      );
+      this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+        console.log(authUser ? authUser.email : null)
+        authUser ? this.setState({ authUser }) : this.setState({ authUser: null });
+      });
     }
 
     componentWillUnmount() {
-      this.listener();
+      this.listener(); //prevent mem leak by forcing recheck
     }
 
     render() {

@@ -1,8 +1,7 @@
 import React from 'react';
 
-
 export default () => (
   <div>
-    <h1>I Forgot</h1>
+    <h1>Creations</h1>
   </div>
 );
