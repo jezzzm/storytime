@@ -24,6 +24,13 @@ const Button = styled.button`
   border-radius: 0.2em;
 `;
 
+const ButtonLink = styled(Link)`
+  background: white;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 0.2em;
+`;
+
 const Navigation = props => (
   <Nav>
     <div>
@@ -50,8 +57,8 @@ const UserAuthed = () => (
 
 const UserNotAuthed = () => (
   <Fragment>
-    <StyledLink to={ROUTES.SIGN_IN}>Sign In</StyledLink>
-    <StyledLink to={ROUTES.SIGN_UP}>Sign Up</StyledLink>
+    <ButtonLink to={ROUTES.SIGN_IN}>Sign In</ButtonLink>
+    <ButtonLink to={ROUTES.SIGN_UP}>Sign Up</ButtonLink>
   </Fragment>
 );
 

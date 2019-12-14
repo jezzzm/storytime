@@ -27,7 +27,7 @@ class SignInFormBase extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = e => {
+  _handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
     this.props.firebase
@@ -42,7 +42,7 @@ class SignInFormBase extends Component {
       });
   };
 
-  onChange = e => {
+  _handleChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -50,11 +50,11 @@ class SignInFormBase extends Component {
     const { email, password, error } = this.state;
     const isInvalid = password === '' || email === '';
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this._handleSubmit}>
         <input
           name="email"
           value={email}
-          onChange={this.onChange}
+          onChange={this._handleChange}
           type="email"
           placeholder="Email Address"
           autoComplete="on"
@@ -62,7 +62,7 @@ class SignInFormBase extends Component {
         <input
           name="password"
           value={password}
-          onChange={this.onChange}
+          onChange={this._handleChange}
           type="password"
           placeholder="Password"
           autoComplete="on"
@@ -85,7 +85,7 @@ const GoogleSignInBase = ({ firebase, history }) => {
     e.preventDefault();
     firebase
       .doSignInWithGoogle()
-      .then(_ => history.push(ROUTES.CREATE))
+      .then( () => history.push(ROUTES.CREATE))
       .catch(console.log)
   }
 

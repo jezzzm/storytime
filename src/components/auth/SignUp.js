@@ -30,21 +30,22 @@ class SignUpFormBase extends Component {
     super(props);
     this.state = { ...INITIAL_STATE };
   }
-  onSubmit = e => {
+
+  _handleSubmit = e => {
     e.preventDefault();
 
     const { username, email, password } = this.state;
 
     this.props.firebase
       .doCreateUserWithEmailAndPassword(email, password)
-      .then( _ => {
+      .then( () => {
         this.setState({ ...INITIAL_STATE });
         this.props.history.push(ROUTES.CREATE) //redirect to draw page
       })
       .catch(error => this.setState({ error }));
   };
 
-  onChange = e => this.setState({[e.target.name]: e.target.value});
+  _handleChange = e => this.setState({[e.target.name]: e.target.value});
 
   render() {
     const {username, email, password, passwordConf, error } = this.state;
@@ -56,11 +57,11 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this._handleSubmit}>
         <input
             name="username"
             value={username}
-            onChange={this.onChange}
+            onChange={this._handleChange}
             type="text"
             placeholder="Username"
             autoComplete="on"
@@ -68,7 +69,7 @@ class SignUpFormBase extends Component {
           <input
             name="email"
             value={email}
-            onChange={this.onChange}
+            onChange={this._handleChange}
             type="text"
             placeholder="Email Address"
             autoComplete="on"
@@ -76,7 +77,7 @@ class SignUpFormBase extends Component {
           <input
             name="password"
             value={password}
-            onChange={this.onChange}
+            onChange={this._handleChange}
             type="password"
             placeholder="Password"
             autoComplete="on"
@@ -84,7 +85,7 @@ class SignUpFormBase extends Component {
           <input
             name="passwordConf"
             value={passwordConf}
-            onChange={this.onChange}
+            onChange={this._handleChange}
             type="password"
             placeholder="Confirm Password"
             autoComplete="on"
