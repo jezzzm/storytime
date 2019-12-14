@@ -9,6 +9,7 @@ const SignUp = () => (
   <div>
     <h1>Sign Up</h1>
     <SignUpForm />
+    <SignUpLink />
   </div>
 );
 
@@ -44,6 +45,8 @@ class SignUpFormBase extends Component {
   onChange = e => {
     this.setState({[e.target.name]: e.target.value})
   };
+
+
 
   render() {
     const {username, email, password, passwordConf, error } = this.state;
@@ -90,18 +93,25 @@ class SignUpFormBase extends Component {
     );
   }
 }
-const SignUpLink = () => (
-  <div>
-    <p>
-      Don't have an account? Sign Up
-    </p>
-    <p>
-      Sign in with Google
-    </p>
-  </div>
-);
+const SignUpLinkBase = (props) => {
+  const _handleGoogle = (e) => {
+    e.preventDefault();
+    props.firebase.doSignInWithGoogle();
+  }
+
+  return (
+    <div>
+      <p>
+        Don't have an account? Sign Up
+      </p>
+      <p>
+        <a href="#" onClick={_handleGoogle}>Sign in with Google</a>
+      </p>
+    </div>
+  );
+};
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
-
+const SignUpLink = withFirebase(SignUpLinkBase);
 export default SignUp;
 export { SignUpForm, SignUpLink };

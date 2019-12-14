@@ -24,7 +24,7 @@ export default class Firebase {
   doSignInWithEmailAndPassword = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
 
   doSignInWithGoogle = () => {
-    const provider = new this.auth.GoogleAuthProvider();
+    const provider = new app.auth.GoogleAuthProvider();
 
     this.auth
       .signInWithPopup(provider)
