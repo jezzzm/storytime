@@ -11,17 +11,12 @@ const Nav = styled.nav`
   color: white;
   display: flex;
   justify-content: space-between;
-  padding: 1em;
+  padding: 1.5em;
 `;
 const StyledLink = styled(Link)`
-  color: white
-`;
-
-const Button = styled.button`
-  background: white;
-  padding: 0.5em;
-  border: 1px solid #ccc;
-  border-radius: 0.2em;
+  color: white;
+  text-decoration: none;
+  margin-right: 1em;
 `;
 
 const ButtonLink = styled(Link)`
@@ -29,6 +24,9 @@ const ButtonLink = styled(Link)`
   padding: 0.5em;
   border: 1px solid #ccc;
   border-radius: 0.2em;
+  margin-left: 1em;
+  color: black;
+  text-decoration: none;
 `;
 
 const Navigation = props => (
@@ -63,9 +61,9 @@ const UserNotAuthed = () => (
 );
 
 const SignOutButton = ({ firebase }) => (
-  <Button type="button" onClick={firebase.doSignOut}>
+  <ButtonLink to="#" onClick={firebase.doSignOut}>
     Sign Out
-  </Button>
+  </ButtonLink>
 );
 
 export const SignOut = withFirebase(SignOutButton);

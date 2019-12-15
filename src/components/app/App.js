@@ -3,6 +3,7 @@ import React from 'react';
 //Routing
 import { HashRouter as Router, Route } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+import styled from '@emotion/styled';
 
 //context
 import withAuthProvider from '../auth/withAuthProvider';
@@ -19,22 +20,27 @@ import Account from '../Account';
 import Help from '../Help';
 import Story from '../Story';
 
-const App = () => (
-    <Router>
-      <div>
-        <Navigation />
-        <Route exact path={ROUTES.CREATE} component={Create} />
-        <Route path={ROUTES.SIGN_UP} component={SignUp} />
-        <Route path={ROUTES.SIGN_IN} component={SignIn} />
-        <Route path={ROUTES.FORGOT} component={PasswordForgot} />
-        <Route path={ROUTES.CHANGE} component={PasswordChange} />
-        <Route path={ROUTES.ACCOUNT} component={Account} />
-        <Route path={ROUTES.CREATIONS} component={Creations} />
-        <Route path={ROUTES.STORY} component={Story} />
-        <Route path={ROUTES.HELP} component={Help} />
-      </div>
-    </Router>
+const Container = styled.div`
+  margin: 3em auto;
+  padding: 2em;
+  max-width:960px;
+`;
 
+const App = () => (
+  <Router>
+    <Navigation />
+    <Container>
+      <Route exact path={ROUTES.CREATE} component={Create} />
+      <Route path={ROUTES.SIGN_UP} component={SignUp} />
+      <Route path={ROUTES.SIGN_IN} component={SignIn} />
+      <Route path={ROUTES.FORGOT} component={PasswordForgot} />
+      <Route path={ROUTES.CHANGE} component={PasswordChange} />
+      <Route path={ROUTES.ACCOUNT} component={Account} />
+      <Route path={ROUTES.CREATIONS} component={Creations} />
+      <Route path={ROUTES.STORY} component={Story} />
+      <Route path={ROUTES.HELP} component={Help} />
+    </Container>
+  </Router>
 );
 
 

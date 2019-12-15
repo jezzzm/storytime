@@ -3,8 +3,8 @@ const AuthContext = React.createContext(null);
 
 export default AuthContext; //for wrapping jsx
 
-export const withAuth = Component => props =>  ( //HOC alternative
+export const withAuth = InnerComponent => props =>  ( //HOC alternative
   <AuthContext.Consumer>
-    {user => <Component {...props} authUser={user} />}
+    {user => <InnerComponent {...props} authUser={user} />}
   </AuthContext.Consumer>
 );

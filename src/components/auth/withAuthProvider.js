@@ -13,7 +13,6 @@ const withAuthProvider = InnerComponent => {
 
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        console.log(authUser ? authUser.email : null)
         authUser ? this.setState({ authUser }) : this.setState({ authUser: null });
       });
     }
