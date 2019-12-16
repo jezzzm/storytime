@@ -52,7 +52,6 @@ class Create extends Component {
     const values = Object.values(this.props.creation.drawings);
     return(
       <div>
-        <h1>Create</h1>
         <CreateForm allWords={this.checkWords} reset={this.doReset}/>
         {values.map((v, i) => (
           <Drawing drawing={v} key={i}/>

@@ -21,26 +21,33 @@ import Account from '../Account';
 import Help from '../Help';
 import Story from '../Story';
 
-const Container = styled.div`
-  margin: 3em auto;
-  padding: 2em;
+const StyledContainer = styled.div`
+  height: 100vh;
+  background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
+`;
+
+const StyledMain = styled.main`
+  margin: 2em auto;
+  padding: 1.5em;
   max-width: calc(100vw - 4em);
 `;
 
 const App = () => (
   <Router>
-    <Navigation />
-    <Container>
-      <Route exact path={ROUTES.CREATE} component={Create} />
-      <Route path={ROUTES.SIGN_UP} component={SignUp} />
-      <Route path={ROUTES.SIGN_IN} component={SignIn} />
-      <Route path={ROUTES.FORGOT} component={PasswordForgot} />
-      <Route path={ROUTES.CHANGE} component={PasswordChange} />
-      <Route path={ROUTES.ACCOUNT} component={Account} />
-      <Route path={ROUTES.CREATIONS} component={Creations} />
-      <Route path={ROUTES.STORY} component={Story} />
-      <Route path={ROUTES.HELP} component={Help} />
-    </Container>
+    <StyledContainer>
+      <Navigation />
+      <StyledMain>
+        <Route exact path={ROUTES.CREATE} component={Create} />
+        <Route path={ROUTES.SIGN_UP} component={SignUp} />
+        <Route path={ROUTES.SIGN_IN} component={SignIn} />
+        <Route path={ROUTES.FORGOT} component={PasswordForgot} />
+        <Route path={ROUTES.CHANGE} component={PasswordChange} />
+        <Route path={ROUTES.ACCOUNT} component={Account} />
+        <Route path={ROUTES.CREATIONS} component={Creations} />
+        <Route path={ROUTES.STORY} component={Story} />
+        <Route path={ROUTES.HELP} component={Help} />
+      </StyledMain>
+    </StyledContainer>
   </Router>
 );
 

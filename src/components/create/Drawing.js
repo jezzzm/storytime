@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 const StyledSVG = styled.svg`
   stroke: #222;
   stroke-width: 5;
+  stroke-linecap: round;
   fill: none;
   padding: 5px;
 `;
@@ -13,8 +14,8 @@ export default class Drawing extends Component {
     super(props);
     this.state = {
       path: this.buildPath(),
-      width: 265,
-      height: 265
+      width: 280,
+      height: 280
     }
   }
 
@@ -42,7 +43,20 @@ export default class Drawing extends Component {
   render() {
     return(
       <StyledSVG width={this.state.width} height={this.state.height}>
-        <path d={this.state.path} />
+        <defs>
+          <filter id="f2" x="0" y="0" width="120%" height="120%">
+            <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+            <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+            <feComponentTransfer>
+              <feFuncA type="linear" slope="0.4"/>
+            </feComponentTransfer>
+            <feMerge xmlns="http://www.w3.org/2000/svg">
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <path d={this.state.path} filter="url(#f2)" />
       </StyledSVG>
     );
   }
