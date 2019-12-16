@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AuthContext from './context';
+import AuthContext from './authContext';
 import { withFirebase } from '../../firebase';
 
 const withAuthProvider = InnerComponent => {

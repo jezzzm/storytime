@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import { withAuth } from '../auth/context';
+import { withAuth } from '../auth/authContext';
 import styled from '@emotion/styled'
 import { withFirebase } from '../../firebase';
 

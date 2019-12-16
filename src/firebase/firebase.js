@@ -31,7 +31,8 @@ export default class Firebase {
   users = () => this.db.collection('users').get();
 
   //word db methods
-  getWord = word => this.db.collection('words').doc(word).get()
+  getWord = word => this.db.collection('words').doc(word).get();
+  getAllWords = () => this.db.collection('words').get();
   getRandomDrawing = word => this.getWord(word).then(res => {
     const drawings = res.data().drawings;
     return drawings[ Math.floor(Math.random() * drawings.length) ]; //pseudo

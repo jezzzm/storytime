@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 
 //context
 import withAuthProvider from '../auth/withAuthProvider';
+import withWordsProvider from '../create/withWordsProvider';
 
 //Components
 import Navigation from './Navigation';
@@ -14,7 +15,7 @@ import SignUp from '../auth/SignUp';
 import SignIn from '../auth/SignIn';
 import PasswordForgot from '../auth/PasswordForgot';
 import PasswordChange from '../auth/PasswordChange';
-import Create from '../Create';
+import Create from '../create/Create';
 import Creations from '../Creations'
 import Account from '../Account';
 import Help from '../Help';
@@ -45,4 +46,4 @@ const App = () => (
 
 
 
-export default withAuthProvider(App);
+export default withAuthProvider(withWordsProvider(App));
