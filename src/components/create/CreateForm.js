@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withWords } from './wordsContext';
 
 class CreateForm extends Component {
   constructor() {
@@ -19,14 +18,23 @@ class CreateForm extends Component {
     const str = e.target.value
     this.setState({[e.target.name]: str})
   }
+
+  _handleReset = () => {
+    this.setState({story: ''})
+    this.props.reset()
+  }
+  
   render() {
     return(
-      <form onSubmit={this._handleSubmit}>
-        <input placeholder="Enter your story" value={this.state.story} name="story" onChange={this._handleChange}/>
-        <button type="submit">Update Images</button>
-      </form>
+      <div>
+        <form onSubmit={this._handleSubmit}>
+          <input placeholder="Enter your story" value={this.state.story} name="story" onChange={this._handleChange}/>
+          <button type="submit">Update Images</button>
+        </form>
+        <button onClick={this._handleReset}>Reset</button>
+      </div>
     );
   }
 }
 
-export default withWords(CreateForm);
+export default CreateForm;

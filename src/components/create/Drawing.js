@@ -6,7 +6,6 @@ const StyledSVG = styled.svg`
   stroke-width: 5;
   fill: none;
   padding: 5px;
-  box-model:  border-box;
 `;
 
 export default class Drawing extends Component {

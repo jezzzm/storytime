@@ -7,7 +7,7 @@ import { withFirebase } from '../../firebase';
 
 
 const Nav = styled.nav`
-  background: black;
+  background: #222;
   color: white;
   display: flex;
   justify-content: space-between;

@@ -32,7 +32,7 @@ export default class Firebase {
 
   //word db methods
   getWord = word => this.db.collection('words').doc(word).get();
-  getAllWords = () => this.db.collection('words').get();
+  getAllWords = () => this.db.collection('wordList').get();
   getRandomDrawing = word => this.getWord(word).then(res => {
     const drawings = res.data().drawings;
     return drawings[ Math.floor(Math.random() * drawings.length) ]; //pseudo
