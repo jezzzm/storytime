@@ -2,44 +2,41 @@ import React, { Component } from 'react';
 
 //context
 import { withFirebase } from '../../firebase';
-import { withWords } from './wordsContext';
+import { withCreation } from './CreationContext';
 
 //components
 import Drawing from './Drawing';
 import CreateForm from './CreateForm';
 
 class Create extends Component {
-  constructor() {
-    super();
-    this.state = {
-      drawings: {}
-    }
-  }
 
   checkWords = words => {
-    const drawnWords = Object.keys(this.state.drawings)
+    console.log('all', words)
+    const drawnWords = Object.keys(this.props.creation.drawings)
     const wordsToRemove = drawnWords.filter(w => !words.includes(w));
-    this.setState({drawings: this.removeDrawings(wordsToRemove)});
+    console.log('remove', wordsToRemove)
+    this.props.creation.updateDrawings(this.removeDrawings(wordsToRemove));
 
-    const wordsToFetch = words.filter(w => this.props.words.includes(w) && !drawnWords.includes(w));
+    const wordsToFetch = words.filter(w => this.props.creation.words.includes(w) && !drawnWords.includes(w));
+    console.log('fetch', wordsToFetch)
     wordsToFetch.forEach(w => this.fetchWord(w));
   }
 
   removeDrawings = keys => {
-    const clone = Object.assign({}, this.state.drawings);
+    const clone = Object.assign({}, this.props.creation.drawings);
     keys.forEach(k => delete clone[k])
-
-    return clone
+    return clone;
   }
 
   fetchWord = w => {
     this.props.firebase
       .getWord(w)
       .then(doc => {
-        if (doc.exists && !Object.keys(this.state.drawings).includes(w)) {
+        if (doc.exists && !Object.keys(this.props.creation.drawings).includes(w)) {
+          console.log('found', doc.id)
           const drawings = doc.data().drawings;
           const rand = drawings[ Math.floor(Math.random() * drawings.length) ];
-          this.setState( { drawings: {...this.state.drawings, [doc.id]: rand } })
+          this.props.creation.updateDrawings({...this.props.creation.drawings, [doc.id]: rand })
         } else {
           console.log(`already drawn in story: '${w}'.`)
         }
@@ -48,11 +45,11 @@ class Create extends Component {
   }
 
   doReset = () => {
-    this.setState({drawings: {}})
+    this.props.creation.updateDrawings({});
   }
 
   render() {
-    const values = Object.values(this.state.drawings);
+    const values = Object.values(this.props.creation.drawings);
     return(
       <div>
         <h1>Create</h1>
@@ -67,4 +64,4 @@ class Create extends Component {
 
 
 
-export default withFirebase(withWords(Create));
+export default withFirebase(withCreation(Create));

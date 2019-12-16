@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 
 //context
 import withAuthProvider from '../auth/withAuthProvider';
-import withWordsProvider from '../create/withWordsProvider';
+import withCreationProvider from '../create/withCreationProvider';
 
 //Components
 import Navigation from './Navigation';
@@ -24,7 +24,7 @@ import Story from '../Story';
 const Container = styled.div`
   margin: 3em auto;
   padding: 2em;
-  max-width:960px;
+  max-width: calc(100vw - 4em);
 `;
 
 const App = () => (
@@ -46,4 +46,4 @@ const App = () => (
 
 
 
-export default withAuthProvider(withWordsProvider(App));
+export default withAuthProvider(withCreationProvider(App));

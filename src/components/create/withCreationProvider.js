@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import WordsContext from './wordsContext';
+import CreationContext from './CreationContext';
 import { withFirebase } from '../../firebase';
 
-const withWordsProvider = InnerComponent => {
-  class WithWordsProvider extends Component {
+const withCreationProvider = InnerComponent => {
+  class WithCreationProvider extends Component {
     constructor(props) {
       super(props);
       this.state = {
         words: null,
+        drawings: {}
       };
     }
 
@@ -22,16 +23,24 @@ const withWordsProvider = InnerComponent => {
       });
     }
 
+    updateDrawings = (drawings) => {
+      this.setState({drawings: drawings})
+    }
+
     render() {
       return (
-        <WordsContext.Provider value={this.state.words}>
+        <CreationContext.Provider
+          value={{
+            ...this.state,
+            updateDrawings: drawings => this.updateDrawings(drawings)
+          }}>
           <InnerComponent {...this.props} />
-        </WordsContext.Provider>
+        </CreationContext.Provider>
       );
     }
   }
 
-  return withFirebase(WithWordsProvider);
+  return withFirebase(WithCreationProvider);
 };
 
-export default withWordsProvider;
+export default withCreationProvider;
