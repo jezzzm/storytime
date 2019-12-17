@@ -4,36 +4,58 @@ import * as ROUTES from '../../constants/routes';
 import { withAuth } from '../auth/authContext';
 import styled from '@emotion/styled'
 import { withFirebase } from '../../firebase';
-
+import { withCreation } from '../create/CreationContext';
 
 const Nav = styled.nav`
-  background: rgba(255,255,255,0.2);
+  background: linear-gradient(90deg, #94c8fd,#2690FA);
   box-shadow: 0 10px 10px rgba(0,0,0,0.1);
   color: white;
   display: flex;
   justify-content: space-between;
   padding: 1.5em;
+  font-family: 'Pangolin', sans-serif;
+  a {
+    text-decoration: none;
+    transition: 0.2s box-shadow;
+  }
 `;
 const StyledLink = styled(Link)`
   color: white;
-  text-decoration: none;
   margin-right: 1em;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const ButtonLink = styled(Link)`
-  background: white;
-  padding: 0.5em;
-  border: 1px solid #ccc;
+  background: rgba(255,255,255,0.8);
+  padding: 0.5em 1.5em;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
   border-radius: 0.2em;
   margin-left: 1em;
-  color: black;
-  text-decoration: none;
+  color: #222;
+  &:hover {
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2)
+  }
+`;
+
+const CreateButton = styled(Link)`
+  background: #C8FD94;
+  color: #222;
+  padding: 0.5em 1.5em;
+  border-radius: 0.2em;
+  margin-right: 1em;
+  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+  &:hover {
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2)
+  }
+
 `;
 
 const Navigation = props => (
   <Nav>
     <div>
-      <StyledLink to={ROUTES.CREATE}>Create</StyledLink>
+      <CreateButton to={ROUTES.CREATE}>Create</CreateButton>
       <StyledLink to={ROUTES.HELP}>Help</StyledLink>
     </div>
     <div>
@@ -61,12 +83,19 @@ const UserNotAuthed = () => (
   </Fragment>
 );
 
-const SignOutButton = ({ firebase }) => (
-  <ButtonLink to="#" onClick={firebase.doSignOut}>
-    Sign Out
-  </ButtonLink>
-);
+const SignOutButton = ({ firebase, creation }) => {
+  const _handleSignOut = () => {
+    firebase.doSignOut();
+    creation.clearPages();
+  }
 
-export const SignOut = withFirebase(SignOutButton);
+  return (
+    <ButtonLink to="#" onClick={_handleSignOut}>
+      Sign Out
+    </ButtonLink>
+  );
+}
+
+export const SignOut = withFirebase(withCreation(SignOutButton));
 
 export default withAuth(Navigation);

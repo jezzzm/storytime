@@ -7,6 +7,7 @@ import { withCreation } from './CreationContext';
 
 //components
 import Drawing from './Drawing';
+import Dice from './Dice';
 import CreateForm from './CreateForm';
 
 const StyledDrawBox = styled.div`
@@ -22,104 +23,117 @@ const StyledDrawContainer = styled.div`
   display: flex;
 `;
 
-const StyledButton = styled.button`
+const StyledPageNav = styled.button`
   font-size: 2rem;
   color: rgba(255,255,255,0.5);
-  background: rgba(0,0,0,0.1);
+  background: transparent;
   border: 0;
   transition: 0.3s box-shadow;
+  cursor: pointer;
   &:focus {
-    box-shadow: 0 0 30px rgba(255,255,255,1);
     outline: none;
+    color: white;
   }
   &:hover {
-    box-shadow: 0 0 30px rgba(255,255,255,0.5);
-    outline: none
+    outline: none;
+    color: white;
   }
 `;
 
-
 class Create extends Component {
-
-  checkWords = words => {
-    console.log('all', words)
-    const drawnWords = Object.keys(this.props.creation.drawings)
-    const wordsToRemove = drawnWords.filter(w => !words.includes(w));
-    console.log('remove', wordsToRemove)
-    this.props.creation.updateDrawings(this.removeDrawings(wordsToRemove));
-
-    const wordsToFetch = words.filter(w => this.props.creation.words.includes(w) && !drawnWords.includes(w));
-    console.log('fetch', wordsToFetch)
-    wordsToFetch.forEach(w => this.fetchWord(w));
+  constructor() {
+    super()
+    this.state = {
+      text: '',
+      page: 0
+    }
   }
 
-  removeDrawings = keys => {
-    const clone = Object.assign({}, this.props.creation.drawings);
-    keys.forEach(k => delete clone[k])
-    return clone;
-  }
-
-  fetchWord = w => {
-    this.props.firebase
-      .getWord(w)
-      .then(doc => {
-        if (doc.exists && !Object.keys(this.props.creation.drawings).includes(w)) {
-          console.log('found', doc.id)
-          const drawings = doc.data().drawings;
-          const rand = drawings[ Math.floor(Math.random() * drawings.length) ];
-          this.props.creation.updateDrawings({...this.props.creation.drawings, [doc.id]: rand })
-        } else {
-          console.log(`already drawn in story: '${w}'.`)
-        }
-      })
-      .catch(err => console.log('caught: ', err)) //some other error
-  }
-
-  doReset = () => {
-    this.props.creation.updateDrawings({});
-  }
-
-  doGetNew = () => {
-    console.log('clicked')
+  _handleNewDrawing = () => {
     const index = this.props.creation.drawingsIndex;
     const rand = index[Math.floor(Math.random() * index.length)]
-    console.log(rand);
     this.props.firebase
-      .getDrawing(rand)
+      .getDrawing(rand) //choose randomly from all drawings
       .then(doc => {
-        this.props.creation.updateDrawings({...this.props.creation.drawings, [doc.id]: doc.data() })
+        const pages = this.props.creation.pages;
+        const curr = this.state.page;
+
+        this.props.creation.updatePages({
+          ...pages,
+          [curr]: {
+            ...pages[curr],
+            drawings: {
+              ...pages[curr].drawings,
+              [doc.id]: {
+                ...doc.data(),
+                id: doc.id,
+                height: 250,
+                width: 250,
+                x: 0, //TODO: can randomise these for variation to start placement
+                y: 0
+              }
+            }
+          }
+        })
         console.log(doc.id, doc.data())
       })
-      // .getAllDrawings()
-      // .then(snapshot => {
-      //   console.log(typeof snapshot)
-        // console.log(snapshot[Math.floor(Math.random() * snapshot.length)])
-        // snapshot.forEach(doc => {
-        //   // console.log(doc.id, doc.data())
-        //
-        // })
-      // })
+  }
+
+  _handleTextChange = e => {
+    this.props.creation.updatePages({
+      ...this.props.creation.pages,
+      [this.state.page]: {
+        ...this.props.creation.pages[this.state.page],
+        text: e.target.value
+      }
+    });
+  }
+
+  _handleDrawingChange = (id, data) => {
+    const pages = this.props.creation.pages;
+    const curr = this.state.page;
+
+    this.props.creation.updatePages({
+      ...pages,
+      [curr]: {
+        ...pages[curr],
+        drawings: {
+          ...pages[curr].drawings,
+          [id]: {
+            ...pages[curr].drawings[id],
+            ...data
+          }
+        }
+      }
+    });
   }
 
   render() {
-    const values = Object.values(this.props.creation.drawings);
+    const values = Object.values(this.props.creation.pages[this.state.page].drawings);
+    const current = this.props.creation.pages[this.state.page];
+    const text = current ? current.text : '';
     return(
       <Fragment>
         <StyledDrawContainer>
-          <StyledButton>&larr;</StyledButton>
+          <StyledPageNav>&larr;</StyledPageNav>
           <StyledDrawBox>
-            {values.map((v, i) => (
-              <Drawing drawing={v} key={i}/>
+            {values.map((d, i) => (
+              <Drawing
+                drawing={d}
+                key={i}
+                name={d.id}
+                currentPage={this.state.page}
+                drawingChanged={(id, data) => this._handleDrawingChange(id, data)}
+              />
             ))}
           </StyledDrawBox>
-          <StyledButton>&rarr;</StyledButton>
+          <StyledPageNav>&rarr;</StyledPageNav>
         </StyledDrawContainer>
-        <CreateForm allWords={this.checkWords} reset={this.doReset} getNew={this.doGetNew}/>
+        <Dice onClick={this._handleNewDrawing}/>
+        <CreateForm onChange={this._handleTextChange} text={text} />
       </Fragment>
     );
   }
 };
-
-
 
 export default withFirebase(withCreation(Create));

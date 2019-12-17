@@ -1,112 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import TextareaAutosize from 'react-textarea-autosize';
 
 const StyledInput = styled(TextareaAutosize)`
   background: rgba(255,255,255,0.1  );
-  width: 100%;
   border: 5px solid transparent;
   font-size: 1.5rem;
   color: #222;
-  padding: 1em;
-  /* border-radius: 1em; */
+  padding: 0.7em;
   resize: none;
-  font-family: 'Caveat Brush', sans-serif;
-  box-shadow: 0 0 30px rgba(0,0,0,0.2);
-  transition: 0.3s box-shadow, background;
+  font-family: 'Pangolin', sans-serif;
+  box-shadow: 0 -10px 10px rgba(0,0,0,0.05);
+  transition: 0.3s background;
   &:focus {
     outline: none;
-    box-shadow: 0 0 30px rgba(255,255,255,1);
-    background: rgba(255,255,255,0.05  );
+    background: rgba(255,255,255,0.2);
   }
   &:hover {
-    background: rgba(255,255,255,0.05  );
+    background: rgba(255,255,255,0.15);
   }
-  &::-webkit-input-placeholder {
+  &::placeholder {
     color: rgba(255,255,255,0.5);
   }
 `;
 
-const StyledDiv = styled.div`
-  display: flex;
-  width: 100%;
-  margin: 1.5em 0 0;
-`;
-
-const StyledButton = styled.button`
-  background: #069a27;
-  border: 0;
-  // border-radius: 1em;
-  color: #fff;
-  font-size: 1.2rem;
-`;
-
-
-class CreateForm extends Component {
-  constructor() {
-    super();
-    this.state = {
-      story: ''
-    };
-  }
-
-  _handleSubmit = e => {
-    e.preventDefault();
-    const storyWords = this.state.story
-      .toLowerCase()
-      .replace(/[^\w|\s]/g, "")
-      .split(/\s/);
-
-    this.props.allWords(storyWords);
-
-  }
-  _handleChange = e => {
-    e.preventDefault();
-    this.setState({[e.target.name]: e.target.value})
-  }
-
-  _handleReset = () => {
-    this.setState({story: ''})
-    this.props.reset()
-  }
-
-  _handleKeyPress = e => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      this._handleSubmit(e)
-    }
-  }
-
-  _handleNewDrawing = e => {
-    e.preventDefault();
-    this.props.getNew()
-  }
-
-  render() {
-    return(
-      <div>
-        <form onSubmit={this._handleSubmit}>
-          <StyledDiv>
-          <StyledInput
-            placeholder="Tell me your story..."
-            value={this.state.story}
-            name="story"
-            onChange={this._handleChange}
-            onKeyPress={this._handleKeyPress}
-            autoComplete="off"
-            autoFocus="on"
-            minRows={1}
-            maxRows={5}
-          />
-          </StyledDiv>
-          <StyledButton type="button" onClick={this._handleNewDrawing}>Update</StyledButton>
-        </form>
-      </div>
-    );
-  }
-}
-
-// <button type="button" onClick={this._handleReset}>Reset</button>
-//
+const CreateForm = props => (
+  <StyledInput
+    placeholder="Tell me your story..."
+    value={props.text}
+    name="text"
+    onChange={props.onChange}
+    autoComplete="off"
+    autoFocus="on"
+    minRows={1}
+    maxRows={5}
+  />
+);
 
 export default CreateForm;

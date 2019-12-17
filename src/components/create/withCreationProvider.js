@@ -2,26 +2,35 @@ import React, { Component } from 'react';
 import CreationContext from './CreationContext';
 import { withFirebase } from '../../firebase';
 
+const INITIAL_STATE = {
+  drawingsIndex: null,
+  pages: [{
+    text:'',
+    drawings:{}
+  }]
+}
+
 const withCreationProvider = InnerComponent => {
   class WithCreationProvider extends Component {
     constructor(props) {
       super(props);
-      this.state = {
-        drawingsIndex: null,
-        drawings: {}
-      };
+      this.state = INITIAL_STATE;
     }
 
     async componentDidMount() {
-      //get current list of words from db
-      let drawings = [];
-      await this.props.firebase.getAllDrawings().then(doc => {
-        this.setState({drawingsIndex: doc.data().values})
-      });
+      await this.props.firebase
+        .getAllDrawings()
+        .then(doc => {
+          this.setState({drawingsIndex: doc.data().values})
+        });
     }
 
-    updateDrawings = (drawings) => {
-      this.setState({drawings: drawings})
+    updatePages = pages => {
+      this.setState({pages: pages})
+    }
+
+    clearPages = () => {
+      this.setState({pages: INITIAL_STATE.pages})
     }
 
     render() {
@@ -29,7 +38,8 @@ const withCreationProvider = InnerComponent => {
         <CreationContext.Provider
           value={{
             ...this.state,
-            updateDrawings: drawings => this.updateDrawings(drawings)
+            updatePages: pages => this.updatePages(pages),
+            clearPages: this.clearPages
           }}>
           <InnerComponent {...this.props} />
         </CreationContext.Provider>

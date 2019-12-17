@@ -29,10 +29,7 @@ const StyledContainer = styled.div`
 `;
 
 const StyledMain = styled.main`
-  /* margin: 2em auto 0; */
-  padding: 1.5em 0;
-  /* max-width: calc(100vw - 4em); */
-  /* min-height: 100%; */
+  padding: 1.5em 0 0;
   display: flex;
   flex-direction: column;
   flex: 1;
