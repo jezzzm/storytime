@@ -22,14 +22,20 @@ import Help from '../Help';
 import Story from '../Story';
 
 const StyledContainer = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledMain = styled.main`
-  margin: 2em auto;
+  /* margin: 2em auto 0; */
   padding: 1.5em;
-  max-width: calc(100vw - 4em);
+  /* max-width: calc(100vw - 4em); */
+  /* min-height: 100%; */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 `;
 
 const App = () => (

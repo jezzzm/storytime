@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import styled from '@emotion/styled';
 
 //context
 import { withFirebase } from '../../firebase';
@@ -7,6 +8,15 @@ import { withCreation } from './CreationContext';
 //components
 import Drawing from './Drawing';
 import CreateForm from './CreateForm';
+
+const StyledDiv = styled.div`
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1em;
+  min-height: 100%;
+  flex: 1;
+  position: relative;
+`;
+
 
 class Create extends Component {
 
@@ -51,12 +61,14 @@ class Create extends Component {
   render() {
     const values = Object.values(this.props.creation.drawings);
     return(
-      <div>
+      <Fragment>
         <CreateForm allWords={this.checkWords} reset={this.doReset}/>
-        {values.map((v, i) => (
-          <Drawing drawing={v} key={i}/>
-        ))}
-      </div>
+        <StyledDiv>
+          {values.map((v, i) => (
+            <Drawing drawing={v} key={i}/>
+          ))}
+        </StyledDiv>
+      </Fragment>
     );
   }
 };

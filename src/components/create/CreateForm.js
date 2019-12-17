@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import TextareaAutosize from 'react-textarea-autosize';
 
 const StyledInput = styled(TextareaAutosize)`
-  // box-sizing: border-box;
+  background: rgba(255,255,255,0.1  );
   width: 100%;
   border: 5px solid transparent;
   font-size: 2rem;
@@ -12,10 +12,15 @@ const StyledInput = styled(TextareaAutosize)`
   border-radius: 1em;
   resize: none;
   font-family: 'Caveat Brush', sans-serif;
-
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+  transition: 0.3s box-shadow, background;
   &:focus {
     outline: none;
     box-shadow: 0 0 30px rgba(255,255,255,1);
+    background: rgba(255,255,255,0.05  );
+  }
+  &:hover {
+    background: rgba(255,255,255,0.05  );
   }
 `;
 
@@ -53,8 +58,7 @@ class CreateForm extends Component {
   }
   _handleChange = e => {
     e.preventDefault();
-    const str = e.target.value
-    this.setState({[e.target.name]: str})
+    this.setState({[e.target.name]: e.target.value})
   }
 
   _handleReset = () => {
