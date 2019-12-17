@@ -38,4 +38,9 @@ export default class Firebase {
     return drawings[ Math.floor(Math.random() * drawings.length) ]; //pseudo
   })
 
+
+  //drawing db methods
+  getDrawing = id => this.db.collection('drawings').doc(id).get();
+  getAllDrawings = () => this.db.collection('drawingList').doc('allIDs').get();
+
 }

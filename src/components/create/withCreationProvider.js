@@ -7,19 +7,16 @@ const withCreationProvider = InnerComponent => {
     constructor(props) {
       super(props);
       this.state = {
-        words: null,
+        drawingsIndex: null,
         drawings: {}
       };
     }
 
     async componentDidMount() {
       //get current list of words from db
-      let words = [];
-      await this.props.firebase.getAllWords().then(snapshot => {
-        snapshot.forEach(doc => {
-          words.push(doc.id)
-        })
-        this.setState({words: words})
+      let drawings = [];
+      await this.props.firebase.getAllDrawings().then(doc => {
+        this.setState({drawingsIndex: doc.data().values})
       });
     }
 

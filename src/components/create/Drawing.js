@@ -7,16 +7,13 @@ const StyledSVG = styled.svg`
   stroke-width: 5;
   stroke-linecap: round;
   fill: none;
-  // padding: 5px;
   display: inline-block;
 `;
 
 const StyledRnd = styled(Rnd)`
-  // padding: 10px;
   border: 3px solid transparent;
   &:hover {
     border: 3px dashed rgba(0,0,0,0.3);
-    // box-sizing: border-box;
   }
 `;
 
@@ -38,23 +35,22 @@ export default class Drawing extends Component {
 
   buildPath() {
     let data = '';
-    for (let stroke in this.props.drawing) {
-      this.props.drawing[stroke].forEach((p, i) => {
-        let newPath = 'M'
-        p[i].forEach((point, j) => {
-          if (j !== 0) { //we already have the Move key for the first pair
-            newPath += 'L'
-          }
-          const newX = point.x/250 * this.state.width + 10;
-          const newY = point.y/250 * this.state.height + 10;
-          newPath += newX + ',' + newY
-          if (j !== p[i].length - 1) {
-            newPath += ','
-          }
-        })
-        data += newPath
+    const coords = this.props.drawing.coords;
+    for (let stroke in coords) {
+      let newPath = 'M'
+      let strokeArray = Object.values(coords[stroke])[0];
+      strokeArray.forEach((p, i) => {
+        if (i !== 0) { //we already have the Move key for the first pair
+          newPath += 'L'
+        }
+        const newX = p.x/250 * this.state.width + 10;
+        const newY = p.y/250 * this.state.height + 10;
+        newPath += newX + ',' + newY
+        if (i !== strokeArray.length - 1) {
+          newPath += ','
+        }
       });
-
+      data += newPath
     }
     return data;
   }
@@ -79,7 +75,6 @@ export default class Drawing extends Component {
           })
         }}
         bounds="parent"
-
       >
         <StyledSVG width={widthSVG} height={heightSVG}>
           <defs>

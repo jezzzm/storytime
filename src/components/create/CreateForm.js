@@ -6,10 +6,10 @@ const StyledInput = styled(TextareaAutosize)`
   background: rgba(255,255,255,0.1  );
   width: 100%;
   border: 5px solid transparent;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #222;
   padding: 1em;
-  border-radius: 1em;
+  /* border-radius: 1em; */
   resize: none;
   font-family: 'Caveat Brush', sans-serif;
   box-shadow: 0 0 30px rgba(0,0,0,0.2);
@@ -22,17 +22,21 @@ const StyledInput = styled(TextareaAutosize)`
   &:hover {
     background: rgba(255,255,255,0.05  );
   }
+  &::-webkit-input-placeholder {
+    color: rgba(255,255,255,0.5);
+  }
 `;
 
 const StyledDiv = styled.div`
   display: flex;
   width: 100%;
+  margin: 1.5em 0 0;
 `;
 
 const StyledButton = styled.button`
   background: #069a27;
   border: 0;
-  border-radius: 1em;
+  // border-radius: 1em;
   color: #fff;
   font-size: 1.2rem;
 `;
@@ -73,6 +77,11 @@ class CreateForm extends Component {
     }
   }
 
+  _handleNewDrawing = e => {
+    e.preventDefault();
+    this.props.getNew()
+  }
+
   render() {
     return(
       <div>
@@ -90,13 +99,14 @@ class CreateForm extends Component {
             maxRows={5}
           />
           </StyledDiv>
-          <button type="button" onClick={this._handleReset}>Reset</button>
-
-          <StyledButton type="submit">Update</StyledButton>
+          <StyledButton type="button" onClick={this._handleNewDrawing}>Update</StyledButton>
         </form>
       </div>
     );
   }
 }
+
+// <button type="button" onClick={this._handleReset}>Reset</button>
+//
 
 export default CreateForm;

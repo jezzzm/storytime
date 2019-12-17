@@ -9,12 +9,33 @@ import { withCreation } from './CreationContext';
 import Drawing from './Drawing';
 import CreateForm from './CreateForm';
 
-const StyledDiv = styled.div`
-  background: rgba(255, 255, 255, 0.2);
+const StyledDrawBox = styled.div`
   padding: 1em;
   min-height: 100%;
-  flex: 1;
   position: relative;
+  flex: 1;
+  margin: 0 1.5em;
+`;
+
+const StyledDrawContainer = styled.div`
+  flex: 1;
+  display: flex;
+`;
+
+const StyledButton = styled.button`
+  font-size: 2rem;
+  color: rgba(255,255,255,0.5);
+  background: rgba(0,0,0,0.1);
+  border: 0;
+  transition: 0.3s box-shadow;
+  &:focus {
+    box-shadow: 0 0 30px rgba(255,255,255,1);
+    outline: none;
+  }
+  &:hover {
+    box-shadow: 0 0 30px rgba(255,255,255,0.5);
+    outline: none
+  }
 `;
 
 
@@ -58,16 +79,42 @@ class Create extends Component {
     this.props.creation.updateDrawings({});
   }
 
+  doGetNew = () => {
+    console.log('clicked')
+    const index = this.props.creation.drawingsIndex;
+    const rand = index[Math.floor(Math.random() * index.length)]
+    console.log(rand);
+    this.props.firebase
+      .getDrawing(rand)
+      .then(doc => {
+        this.props.creation.updateDrawings({...this.props.creation.drawings, [doc.id]: doc.data() })
+        console.log(doc.id, doc.data())
+      })
+      // .getAllDrawings()
+      // .then(snapshot => {
+      //   console.log(typeof snapshot)
+        // console.log(snapshot[Math.floor(Math.random() * snapshot.length)])
+        // snapshot.forEach(doc => {
+        //   // console.log(doc.id, doc.data())
+        //
+        // })
+      // })
+  }
+
   render() {
     const values = Object.values(this.props.creation.drawings);
     return(
       <Fragment>
-        <CreateForm allWords={this.checkWords} reset={this.doReset}/>
-        <StyledDiv>
-          {values.map((v, i) => (
-            <Drawing drawing={v} key={i}/>
-          ))}
-        </StyledDiv>
+        <StyledDrawContainer>
+          <StyledButton>&larr;</StyledButton>
+          <StyledDrawBox>
+            {values.map((v, i) => (
+              <Drawing drawing={v} key={i}/>
+            ))}
+          </StyledDrawBox>
+          <StyledButton>&rarr;</StyledButton>
+        </StyledDrawContainer>
+        <CreateForm allWords={this.checkWords} reset={this.doReset} getNew={this.doGetNew}/>
       </Fragment>
     );
   }
