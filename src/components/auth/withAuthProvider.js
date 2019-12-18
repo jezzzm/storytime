@@ -14,20 +14,8 @@ const withAuthProvider = InnerComponent => {
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
         if(authUser) {
-          this.props.firebase
-            .getUserStories(authUser.uid)
-            .then(snap => {
-              const userStories = {};
-              snap.forEach(doc => {
-                userStories[doc.id] = doc.data();
-              })
-              this.setState({
-                authUser: {...authUser,
-                userStories}
-              })
-            })
-
-          // this.setState({ authUser })
+          this.setState({authUser})
+          this.fetchStories(authUser.uid)
         } else {
           this.setState({ authUser: false });
         }
@@ -38,9 +26,26 @@ const withAuthProvider = InnerComponent => {
       this.listener(); //prevent mem leak by forcing recheck
     }
 
+    fetchStories = (uid) => {
+      this.props.firebase
+        .getUserStories(this.state.authUser.uid)
+        .then(snap => {
+          const stories = {};
+          snap.forEach(doc => {
+            stories[doc.id] = doc.data();
+          })
+          this.setState({
+            authUser: {
+              ...this.state.authUser,
+              stories
+            }
+          })
+        })
+    }
+
     render() {
       return (
-        <AuthContext.Provider value={this.state.authUser}>
+        <AuthContext.Provider value={{...this.state.authUser, fetchStories: this.fetchStories}}>
           <InnerComponent {...this.props} />
         </AuthContext.Provider>
       );

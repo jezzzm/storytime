@@ -6,15 +6,18 @@ import styled from '@emotion/styled';
 import BlueSpinner from './app/BlueSpinner';
 
 //TODO: trigger recheck on component mount
-const Stories = props => (
-  <Fragment>
-    {props.authUser ? (
-      <StoriesLoaded stories={props.authUser.userStories} />
-    ) : (
-      <StoriesNotLoaded />
-    )}
-  </Fragment>
-);
+const Stories = props => {
+
+  return (
+    <Fragment>
+      {props.authUser.stories ? (
+        <StoriesLoaded stories={props.authUser.stories} />
+      ) : (
+        <StoriesNotLoaded />
+      )}
+    </Fragment>
+  );
+}
 
 
 const StoriesLoaded = props => {
@@ -28,6 +31,7 @@ const StoriesLoaded = props => {
       <tbody>
         {stories.map((s, i) => (
           <tr key={i}>
+            <td>{i + 1}</td>
             <td>{s.title ? s.title : 'Untitled'}</td>
             <td>datetime created</td>
             <td>datetime modified</td>

@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   pages: [{
     text:'',
     drawings: {}
-  }]
+  }],
+  id: null
 }
 
 const withCreationProvider = InnerComponent => {
@@ -30,8 +31,11 @@ const withCreationProvider = InnerComponent => {
       this.setState({pages: pages})
     }
 
-    clearPages = () => {
-      this.setState({pages: INITIAL_STATE.pages})
+    clearCreation = () => {
+      this.setState({
+        ...INITIAL_STATE,
+        drawingsIndex: this.state.drawingsIndex
+      })
     }
 
     render() {
@@ -40,7 +44,7 @@ const withCreationProvider = InnerComponent => {
           value={{
             ...this.state,
             updatePages: pages => this.updatePages(pages),
-            clearPages: this.clearPages
+            clearCreation: this.clearCreation
           }}>
           <InnerComponent {...this.props} />
         </CreationContext.Provider>

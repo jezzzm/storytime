@@ -93,7 +93,7 @@ const UserNotAuthed = () => (
 const SignOutButton = ({ firebase, creation }) => {
   const _handleSignOut = () => {
     firebase.doSignOut();
-    creation.clearPages();
+    creation.clearCreation();
   }
 
   return (

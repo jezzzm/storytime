@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 
 //context
 import { withFirebase } from '../../firebase';
 import { withCreation } from './CreationContext';
+import { withAuth } from '../auth/authContext';
 
 //components
 import Drawing from './Drawing';
@@ -117,16 +119,28 @@ class Create extends Component {
 
   _handleSave = () => {
     const uid = this.props.firebase.auth.W;
-    console.log(uid)
-    this.props.firebase.saveStory({
-      uid: uid,
-      pages: this.props.creation.pages,
-      title: this.props.creation.title
-    })
+
+    if(!this.props.creation.id) { //not yet saved => new entry
+      this.props.firebase.saveStory({
+        uid: uid,
+        pages: this.props.creation.pages,
+        title: this.props.creation.title
+      })
+    } else { //update old entry
+      this.props.firebase.saveStory({
+        uid: uid,
+        pages: this.props.creation.pages,
+        title: this.props.creation.title
+      }, this.props.creation.id)
+    }
+
+    this.props.authUser.fetchStories();
+
   }
 
   render() {
     const isLoading = !this.props.creation.drawingsIndex;
+    const isAuthed = !!this.props.authUser;
     const drawings = Object.values(this.props.creation.pages[this.state.page].drawings);
     const current = this.props.creation.pages[this.state.page];
     const text = current ? current.text : '';
@@ -140,6 +154,12 @@ class Create extends Component {
             <Fragment>
               <StyledPageNav>&larr;</StyledPageNav>
               <StyledDrawBox>
+                {isAuthed ? (
+                  <button onClick={this._handleSave}>Save</button>
+                ) : (
+                  <p><Link to="signup">Sign up</Link> or <Link to="/signin">sign in</Link> to save story  </p>
+                )}
+
                 {drawings.map((d, i) => (
                   <Drawing
                     drawing={d}
@@ -158,10 +178,7 @@ class Create extends Component {
           <Fragment></Fragment>
         ):(
           <Fragment>
-            <div>
               <Dice onClick={this._handleNewDrawing}/>
-              <button onClick={this._handleSave}>Save</button>
-            </div>
             <CreateForm onChange={this._handleTextChange} text={text} />
           </Fragment>
         )}
@@ -172,4 +189,4 @@ class Create extends Component {
 };
 
 
-export default withFirebase(withCreation(Create));
+export default withFirebase(withCreation(withAuth(Create)));
