@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, Component} from 'react';
 
 //components
 import Create from './create/Create';
@@ -10,7 +10,10 @@ import {withCreation} from './create/CreationContext';
 
 const Edit = (props) => {
   const storyid = props.match.params.storyid;
-  
+
+  const componentDidMount = () => {
+
+  }
 
   return (
     <Fragment>
@@ -20,4 +23,4 @@ const Edit = (props) => {
   );
 }
 
-export default withFirebase(withCreation(Edit));
+export default Edit;

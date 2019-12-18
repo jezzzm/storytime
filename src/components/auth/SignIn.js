@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+
+//routing
 import { withRouter, Link } from 'react-router-dom';
-
-
-import { withFirebase } from '../../firebase';
 import * as ROUTES from '../../constants/routes';
+
+//context
+import { withFirebase } from '../../firebase';
+
+//components
+import BlueSpinner from '../app/BlueSpinner';
 
 const SignIn = () => (
   <div>
@@ -19,6 +24,7 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   error: null,
+  isLoggingIn: false
 };
 
 class SignInFormBase extends Component {
@@ -30,6 +36,7 @@ class SignInFormBase extends Component {
   _handleSubmit = e => {
     e.preventDefault();
     const { email, password } = this.state;
+    this.setState({isLoggingIn: true});
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
       .then(() => this.props.history.push(ROUTES.NEW))
@@ -41,7 +48,7 @@ class SignInFormBase extends Component {
   };
 
   render() {
-    const { email, password, error } = this.state;
+    const { email, password, error, isLoggingIn } = this.state;
     const isInvalid = password === '' || email === '';
     return (
       <form onSubmit={this._handleSubmit}>
@@ -65,6 +72,7 @@ class SignInFormBase extends Component {
           Sign In
         </button>
         {error && <p>{error.message}</p>}
+        {isLoggingIn && <BlueSpinner />}
       </form>
     );
   }

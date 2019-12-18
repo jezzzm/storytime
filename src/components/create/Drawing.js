@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+
+//styles
 import styled from '@emotion/styled';
+import * as S from '../../constants/style';
+
+//components
 import { Rnd } from 'react-rnd';
 
 const StyledSVG = styled.svg`
-  stroke: #222;
+  stroke: ${S.COPY};
   stroke-width: 5;
   stroke-linecap: round;
   fill: none;
@@ -30,34 +35,22 @@ export default class Drawing extends Component {
     const drawing = this.props.drawing
     const coords = drawing.coords;
 
-    //check limit of points to strip svg bounding box to better match the shape
-    // let usedHeight = 0;
-    // let usedWidth = 0;
-    // let drawingPoints = []
     //iterate through coord pairs to generate SVG path string
     for (let stroke in coords) {
       let pathSegment = 'M'
       let strokeArray = Object.values(coords[stroke])[0];
-      // let strokePoints = []
-      strokeArray.forEach((p, i) => {
-        // if (p.x > usedWidth) usedWidth = p.x;
-        // if (p.y > usedHeight) usedHeight = p.y;
 
+      strokeArray.forEach((p, i) => {
         const newX = p.x/250 * drawing.width + 10;
         const newY = p.y/250 * drawing.height + 10;
 
         //we already have the Move key for the first pair
         if (i !== 0) pathSegment += 'L';
 
-        // strokePoints.push([p.x, p.y])
         pathSegment += newX + ',' + newY
-
         if (i !== strokeArray.length - 1) pathSegment += ',';
-
       });
-
       data += pathSegment
-      // drawingPoints.push(strokePoints)
     }
     return data;
   }

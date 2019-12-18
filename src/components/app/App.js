@@ -3,11 +3,14 @@ import React from 'react';
 //Routing
 import { HashRouter as Router, Route } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import styled from '@emotion/styled';
 
 //context
 import withAuthProvider from '../auth/withAuthProvider';
 import withCreationProvider from '../create/withCreationProvider';
+
+//styles
+import styled from '@emotion/styled';
+import * as S from '../../constants/style';
 
 //Components
 import Navigation from './Navigation';
@@ -25,7 +28,7 @@ import Landing from '../Landing';
 
 const StyledContainer = styled.div`
   min-height: 100vh;
-  background-image: radial-gradient(circle, #F9A72B 0%, #FA9026 70%, #FB6C1F 100%);
+  background-image: radial-gradient(circle, ${S.L_OJ} 0%, ${S.M_OJ} 70%, ${S.D_OJ} 100%);
   display: flex;
   flex-direction: column;
 `;

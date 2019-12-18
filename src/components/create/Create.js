@@ -48,6 +48,7 @@ class Create extends Component {
     this.state = {
       text: '',
       page: 0,
+      isLoadingStory: true
     }
   }
 
@@ -60,23 +61,29 @@ class Create extends Component {
           this.props.creation.updateID(doc.id)
           this.props.creation.updatePages(story.pages)
           this.props.creation.updateTitle(story.title)
-          console.log(this.props.creation)
+          this.setState({isLoadingStory: false})
+          console.log('loaded: ', this.props.creation)
         })
+    } else if (this.props.creation && !this.props.authUser.info) {
+      this.setState({isLoadingStory: false});
+    } else {
+      this.props.creation.clearCreation()
+      this.setState({isLoadingStory: false});
     }
-
   }
 
   _handleNewDrawing = () => {
-    if (Object.keys(this.props.creation.pages[this.state.page].drawings).length < 10) {
-      const index = this.props.creation.drawingsIndex;
+    const { creation } = this.props;
+    if (Object.keys(creation.pages[this.state.page].drawings).length < 10) {
+      const index = creation.drawingsIndex;
       const rand = index[Math.floor(Math.random() * index.length)]
       this.props.firebase
         .getDrawing(rand) //choose randomly from all drawings
         .then(doc => {
-          const pages = this.props.creation.pages;
+          const pages = creation.pages;
           const curr = this.state.page;
 
-          this.props.creation.updatePages({
+          creation.updatePages({
             ...pages,
             [curr]: {
               ...pages[curr],
@@ -133,7 +140,6 @@ class Create extends Component {
 
   _handleSave = () => {
     const uid = this.props.firebase.auth.W;
-    console.log('saving...')
     if(!this.props.creation.id) { //not yet saved => new entry
       this.props.firebase.saveStory({
         uid: uid,
@@ -154,33 +160,40 @@ class Create extends Component {
       }, this.props.creation.id)
       .then(() => console.log('updated: ', this.props.creation.id))
     }
-
     this.props.authUser.fetchStories();
+  }
 
+  _handleClear = () => {
+    const pages = this.props.creation.pages;
+    const curr = this.state.page;
+
+    this.props.creation.updatePages({
+      ...pages,
+      [curr]: {
+        ...pages[curr],
+        drawings: {},
+        text: ''
+      }
+    });
   }
 
   render() {
-    const isLoading = !this.props.creation.drawingsIndex;
-    const isAuthed = !!this.props.authUser;
-    const drawings = Object.values(this.props.creation.pages[this.state.page].drawings);
+    const isLoadingStory = this.state.isLoadingStory;
+    const isLoadingIndex = !this.props.creation.drawingsIndex;
+    const isAuthed = !!this.props.authUser.info;
     const current = this.props.creation.pages[this.state.page];
+    const drawings = Object.values(current.drawings);
     const text = current ? current.text : '';
-    return(
 
+    return(
       <Fragment>
         <StyledDrawContainer>
-          {isLoading ? (
+          {isLoadingIndex || isLoadingStory ? (
             <BlueSpinner />
           ):(
             <Fragment>
               <StyledPageNav>&larr;</StyledPageNav>
               <StyledDrawBox>
-                {isAuthed ? (
-                  <button onClick={this._handleSave}>Save</button>
-                ) : (
-                  <p><Link to="signup">Sign up</Link> or <Link to="/signin">sign in</Link> to save story  </p>
-                )}
-
                 {drawings.map((d, i) => (
                   <Drawing
                     drawing={d}
@@ -195,19 +208,21 @@ class Create extends Component {
             </Fragment>
           )}
         </StyledDrawContainer>
-        {isLoading ? (
-          <Fragment></Fragment>
-        ):(
+        {!isLoadingIndex && (
           <Fragment>
             <Dice onClick={this._handleNewDrawing}/>
-            <CreateForm onChange={this._handleTextChange} text={text} />
+            <CreateForm
+              text={text}
+              onChange={this._handleTextChange}
+              onClear={this._handleClear}
+              onSave={this._handleSave}
+              isAuthed={isAuthed}
+            />
           </Fragment>
         )}
-
       </Fragment>
     );
   }
 };
-
 
 export default withFirebase(withCreation(withAuth(Create)));

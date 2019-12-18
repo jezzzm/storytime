@@ -1,0 +1,13 @@
+export const D_BLUE = '#2690FA'
+export const M_BLUE = '#94c8fd'
+export const L_BLUE = '#cbe4fc'
+export const D_OJ = '#FB6C1F'
+export const M_OJ = '#FA9026'
+export const L_OJ = '#F9A72B'
+export const GREEN = '#C8FD94'
+export const COPY = '#333333'
+export const L_SHADOW_D = '0 10px 10px rgba(0,0,0,0.1)'
+export const L_SHADOW_U = '0 -10px 10px rgba(0,0,0,0.1)'
+export const S_SHADOW = '2px 2px 2px rgba(0,0,0,0.5)'
+export const S_SHADOW_H = '2px 2px 2px rgba(0,0,0,0.2)'
+export const FANCY = "'Pangolin', sans-serif";

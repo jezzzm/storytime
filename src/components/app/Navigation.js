@@ -1,57 +1,58 @@
 import React, { Fragment } from 'react';
+
+//routing
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
-import { withAuth } from '../auth/authContext';
-import styled from '@emotion/styled'
+
+//styles
+import styled from '@emotion/styled';
+import * as S from '../../constants/style';
+
+//context
 import { withFirebase } from '../../firebase';
 import { withCreation } from '../create/CreationContext';
+import { withAuth } from '../auth/authContext';
 
+//components
 import OrangeSpinner from './OrangeSpinner';
 
 const Nav = styled.nav`
-  background: linear-gradient(90deg, #94c8fd,#2690FA);
-  box-shadow: 0 10px 10px rgba(0,0,0,0.1);
+  background: linear-gradient(90deg, ${S.M_BLUE}, ${S.D_BLUE});
+  box-shadow: ${S.L_SHADOW_D};
   color: white;
   display: flex;
   justify-content: space-between;
   padding: 1.5em;
-  font-family: 'Pangolin', sans-serif;
+  font-family: ${S.FANCY};
   a {
     text-decoration: none;
     transition: 0.2s box-shadow;
+    color: white;
+  }
+  a.new {
+    background: ${S.GREEN};
+    margin-right: 1em;
+  }
+  a.auth {
+    background: ${S.L_BLUE};
+    margin-left: 1em;
+  }
+  a.btn {
+    padding: 0.5em 1.5em;
+    box-shadow: ${S.S_SHADOW};
+    border-radius: 0.2em;
+    color: ${S.COPY};
+    &:hover {
+      box-shadow: ${S.S_SHADOW_H}
+    }
   }
 `;
+
 const StyledLink = styled(Link)`
-  color: white;
   margin-right: 1em;
   &:hover {
     text-decoration: underline;
   }
-`;
-
-const ButtonLink = styled(Link)`
-  background: rgba(255,255,255,0.8);
-  padding: 0.5em 1.5em;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
-  border-radius: 0.2em;
-  margin-left: 1em;
-  color: #222;
-  &:hover {
-    box-shadow: 2px 2px 2px rgba(0,0,0,0.2)
-  }
-`;
-
-const CreateButton = styled(Link)`
-  background: #C8FD94;
-  color: #222;
-  padding: 0.5em 1.5em;
-  border-radius: 0.2em;
-  margin-right: 1em;
-  box-shadow: 2px 2px 2px rgba(0,0,0,0.5);
-  &:hover {
-    box-shadow: 2px 2px 2px rgba(0,0,0,0.2)
-  }
-
 `;
 
 const Navigation = props => {
@@ -60,7 +61,7 @@ const Navigation = props => {
     <Nav>
       <div>
         <StyledLink to={ROUTES.LANDING}>Home</StyledLink>
-        <CreateButton to={ROUTES.NEW}>New Story</CreateButton>
+        <Link to={ROUTES.NEW} className="btn new">New Story</Link>
         <StyledLink to={ROUTES.HELP}>Help</StyledLink>
       </div>
       <div>
@@ -89,8 +90,8 @@ const UserAuthed = () => (
 
 const UserNotAuthed = () => (
   <Fragment>
-    <ButtonLink to={ROUTES.SIGN_IN}>Sign In</ButtonLink>
-    <ButtonLink to={ROUTES.SIGN_UP}>Sign Up</ButtonLink>
+    <Link to={ROUTES.SIGN_IN} className="btn auth">Sign In</Link>
+    <Link to={ROUTES.SIGN_UP} className="btn auth">Sign Up</Link>
   </Fragment>
 );
 
@@ -102,9 +103,9 @@ const SignOutButton = ({ firebase, creation }) => {
   }
 
   return (
-    <ButtonLink to="#" onClick={_handleSignOut}>
+    <Link to="#" onClick={_handleSignOut} className="btn auth">
       Sign Out
-    </ButtonLink>
+    </Link>
   );
 }
 

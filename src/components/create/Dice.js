@@ -1,6 +1,13 @@
 import React from 'react';
-import styled from '@emotion/styled';
+
+//routing
 import { Link } from 'react-router-dom';
+
+//styles
+import styled from '@emotion/styled';
+import * as S from '../../constants/style'
+
+
 const StyledSVG = styled.svg`
   margin-top:5px;
   width:60px;
@@ -18,12 +25,12 @@ const StyledAnchor = styled(Link)`
   align-self: center;
   text-align: center;
   z-index: 1000;
-  background: #fa9d42;
+  background: #fea116;
   box-shadow: 0 -10px 10px rgba(0,0,0,0.05);
   padding: 10px 10px 0;
-  border-radius: 10% 10% 0 0;
+  border-radius: 15% 15% 0 0;
   &:hover path {
-    fill: #C8FD94;
+    fill: white;
   }
 `;
 
