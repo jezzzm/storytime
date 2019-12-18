@@ -9,6 +9,7 @@ import { withCreation } from './CreationContext';
 import Drawing from './Drawing';
 import Dice from './Dice';
 import CreateForm from './CreateForm';
+import BlueSpinner from '../app/BlueSpinner';
 
 const StyledDrawBox = styled.div`
   padding: 1em;
@@ -45,7 +46,7 @@ class Create extends Component {
     super()
     this.state = {
       text: '',
-      page: 0
+      page: 0,
     }
   }
 
@@ -109,28 +110,43 @@ class Create extends Component {
   }
 
   render() {
-    const values = Object.values(this.props.creation.pages[this.state.page].drawings);
+    const isLoading = !this.props.creation.drawingsIndex;
+    const drawings = Object.values(this.props.creation.pages[this.state.page].drawings);
     const current = this.props.creation.pages[this.state.page];
     const text = current ? current.text : '';
     return(
+
       <Fragment>
         <StyledDrawContainer>
-          <StyledPageNav>&larr;</StyledPageNav>
-          <StyledDrawBox>
-            {values.map((d, i) => (
-              <Drawing
-                drawing={d}
-                key={i}
-                name={d.id}
-                currentPage={this.state.page}
-                drawingChanged={(id, data) => this._handleDrawingChange(id, data)}
-              />
-            ))}
-          </StyledDrawBox>
-          <StyledPageNav>&rarr;</StyledPageNav>
+          {isLoading ? (
+            <BlueSpinner />
+          ):(
+            <Fragment>
+              <StyledPageNav>&larr;</StyledPageNav>
+              <StyledDrawBox>
+                {drawings.map((d, i) => (
+                  <Drawing
+                    drawing={d}
+                    key={i}
+                    name={d.id}
+                    currentPage={this.state.page}
+                    drawingChanged={(id, data) => this._handleDrawingChange(id, data)}
+                  />
+                ))}
+              </StyledDrawBox>
+              <StyledPageNav>&rarr;</StyledPageNav>
+            </Fragment>
+          )}
         </StyledDrawContainer>
-        <Dice onClick={this._handleNewDrawing}/>
-        <CreateForm onChange={this._handleTextChange} text={text} />
+        {isLoading ? (
+          <Fragment></Fragment>
+        ):(
+          <Fragment>
+            <Dice onClick={this._handleNewDrawing}/>
+            <CreateForm onChange={this._handleTextChange} text={text} />
+          </Fragment>
+        )}
+
       </Fragment>
     );
   }

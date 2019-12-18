@@ -6,6 +6,8 @@ import styled from '@emotion/styled'
 import { withFirebase } from '../../firebase';
 import { withCreation } from '../create/CreationContext';
 
+import OrangeSpinner from './OrangeSpinner';
+
 const Nav = styled.nav`
   background: linear-gradient(90deg, #94c8fd,#2690FA);
   box-shadow: 0 10px 10px rgba(0,0,0,0.1);
@@ -52,21 +54,29 @@ const CreateButton = styled(Link)`
 
 `;
 
-const Navigation = props => (
-  <Nav>
-    <div>
-      <CreateButton to={ROUTES.CREATE}>Create</CreateButton>
-      <StyledLink to={ROUTES.HELP}>Help</StyledLink>
-    </div>
-    <div>
-      {props.authUser ?
-        <UserAuthed />
-        :
-        <UserNotAuthed />
-      }
-    </div>
-  </Nav>
-);
+const Navigation = props => {
+  console.log(props.authUser)
+
+  return (
+    <Nav>
+      <div>
+        <CreateButton to={ROUTES.CREATE}>Create</CreateButton>
+        <StyledLink to={ROUTES.HELP}>Help</StyledLink>
+      </div>
+      <div>
+        {props.authUser ?
+          <UserAuthed />
+          :
+          (props.authUser === null ? (
+            <OrangeSpinner />
+          ): (
+            <UserNotAuthed />
+          ))
+        }
+      </div>
+    </Nav>
+  );
+}
 
 const UserAuthed = () => (
   <Fragment>
