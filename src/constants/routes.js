@@ -9,7 +9,7 @@ export const CREATE = '/';
 
 //account
 export const ACCOUNT = '/account';
-export const CREATIONS = '/creations';
+export const STORIES = '/stories';
 
 //share
 export const STORY = '/story/:id';

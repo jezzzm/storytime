@@ -7,13 +7,30 @@ const withAuthProvider = InnerComponent => {
     constructor(props) {
       super(props);
       this.state = {
-        authUser: null,
+        authUser: null
       };
     }
 
     componentDidMount() {
       this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-        authUser ? this.setState({ authUser }) : this.setState({ authUser: false });
+        if(authUser) {
+          this.props.firebase
+            .getUserStories(authUser.uid)
+            .then(snap => {
+              const userStories = {};
+              snap.forEach(doc => {
+                userStories[doc.id] = doc.data();
+              })
+              this.setState({
+                authUser: {...authUser,
+                userStories}
+              })
+            })
+
+          // this.setState({ authUser })
+        } else {
+          this.setState({ authUser: false });
+        }
       });
     }
 

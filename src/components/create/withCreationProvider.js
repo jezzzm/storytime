@@ -4,9 +4,10 @@ import { withFirebase } from '../../firebase';
 
 const INITIAL_STATE = {
   drawingsIndex: null,
+  title: '',
   pages: [{
     text:'',
-    drawings:{}
+    drawings: {}
   }]
 }
 

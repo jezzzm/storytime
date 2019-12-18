@@ -16,7 +16,7 @@ import SignIn from '../auth/SignIn';
 import PasswordForgot from '../auth/PasswordForgot';
 import PasswordChange from '../auth/PasswordChange';
 import Create from '../create/Create';
-import Creations from '../Creations'
+import Stories from '../Stories'
 import Account from '../Account';
 import Help from '../Help';
 import Story from '../Story';
@@ -46,7 +46,7 @@ const App = () => (
         <Route path={ROUTES.FORGOT} component={PasswordForgot} />
         <Route path={ROUTES.CHANGE} component={PasswordChange} />
         <Route path={ROUTES.ACCOUNT} component={Account} />
-        <Route path={ROUTES.CREATIONS} component={Creations} />
+        <Route path={ROUTES.STORIES} component={Stories} />
         <Route path={ROUTES.STORY} component={Story} />
         <Route path={ROUTES.HELP} component={Help} />
       </StyledMain>

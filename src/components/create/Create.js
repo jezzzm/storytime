@@ -51,33 +51,39 @@ class Create extends Component {
   }
 
   _handleNewDrawing = () => {
-    const index = this.props.creation.drawingsIndex;
-    const rand = index[Math.floor(Math.random() * index.length)]
-    this.props.firebase
-      .getDrawing(rand) //choose randomly from all drawings
-      .then(doc => {
-        const pages = this.props.creation.pages;
-        const curr = this.state.page;
+    if (Object.keys(this.props.creation.pages[this.state.page].drawings).length < 10) {
+      const index = this.props.creation.drawingsIndex;
+      const rand = index[Math.floor(Math.random() * index.length)]
+      this.props.firebase
+        .getDrawing(rand) //choose randomly from all drawings
+        .then(doc => {
+          const pages = this.props.creation.pages;
+          const curr = this.state.page;
 
-        this.props.creation.updatePages({
-          ...pages,
-          [curr]: {
-            ...pages[curr],
-            drawings: {
-              ...pages[curr].drawings,
-              [doc.id]: {
-                ...doc.data(),
-                id: doc.id,
-                height: 250,
-                width: 250,
-                x: 0, //TODO: can randomise these for variation to start placement
-                y: 0
+          this.props.creation.updatePages({
+            ...pages,
+            [curr]: {
+              ...pages[curr],
+              drawings: {
+                ...pages[curr].drawings,
+                [doc.id]: {
+                  ...doc.data(),
+                  id: doc.id,
+                  height: 250,
+                  width: 250,
+                  x: 0, //TODO: can randomise these for variation to start placement
+                  y: 0
+                }
               }
             }
-          }
+          })
+          console.log(doc.id, doc.data())
         })
-        console.log(doc.id, doc.data())
-      })
+    } else {
+      console.log('too many drawings');
+      //TODO: more here
+    }
+
   }
 
   _handleTextChange = e => {
@@ -107,6 +113,16 @@ class Create extends Component {
         }
       }
     });
+  }
+
+  _handleSave = () => {
+    const uid = this.props.firebase.auth.W;
+    console.log(uid)
+    this.props.firebase.saveStory({
+      uid: uid,
+      pages: this.props.creation.pages,
+      title: this.props.creation.title
+    })
   }
 
   render() {
@@ -142,7 +158,10 @@ class Create extends Component {
           <Fragment></Fragment>
         ):(
           <Fragment>
-            <Dice onClick={this._handleNewDrawing}/>
+            <div>
+              <Dice onClick={this._handleNewDrawing}/>
+              <button onClick={this._handleSave}>Save</button>
+            </div>
             <CreateForm onChange={this._handleTextChange} text={text} />
           </Fragment>
         )}
@@ -151,5 +170,6 @@ class Create extends Component {
     );
   }
 };
+
 
 export default withFirebase(withCreation(Create));

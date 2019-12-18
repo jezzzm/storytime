@@ -54,33 +54,30 @@ const CreateButton = styled(Link)`
 
 `;
 
-const Navigation = props => {
-  console.log(props.authUser)
+const Navigation = props => (
+  <Nav>
+    <div>
+      <CreateButton to={ROUTES.CREATE}>Create</CreateButton>
+      <StyledLink to={ROUTES.HELP}>Help</StyledLink>
+    </div>
+    <div>
+      {props.authUser ?
+        <UserAuthed />
+        :
+        (props.authUser === null ? (
+          <OrangeSpinner />
+        ): (
+          <UserNotAuthed />
+        ))
+      }
+    </div>
+  </Nav>
+);
 
-  return (
-    <Nav>
-      <div>
-        <CreateButton to={ROUTES.CREATE}>Create</CreateButton>
-        <StyledLink to={ROUTES.HELP}>Help</StyledLink>
-      </div>
-      <div>
-        {props.authUser ?
-          <UserAuthed />
-          :
-          (props.authUser === null ? (
-            <OrangeSpinner />
-          ): (
-            <UserNotAuthed />
-          ))
-        }
-      </div>
-    </Nav>
-  );
-}
 
 const UserAuthed = () => (
   <Fragment>
-    <StyledLink to={ROUTES.CREATIONS}>Creations</StyledLink>
+    <StyledLink to={ROUTES.STORIES}>Stories</StyledLink>
     <StyledLink to={ROUTES.ACCOUNT}>Account</StyledLink>
     <SignOut />
   </Fragment>

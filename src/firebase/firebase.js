@@ -34,4 +34,15 @@ export default class Firebase {
   getDrawing = id => this.db.collection('drawings').doc(id).get();
   getAllDrawings = () => this.db.collection('drawingList').doc('allIDs').get();
 
+  //story db methods
+  saveStory = (data, sid=false) => {
+    if (!sid) {
+      return this.db.collection('stories').add(data); //save new
+    } else {
+      return this.db.collection('stories').doc(sid).set(data); //overwrite existing
+    }
+  }
+  getStory = sid => this.db.collection('stories').doc(sid).get();
+  getUserStories = uid => this.db.collection('stories').where("uid", "==", uid).get();
+
 }
