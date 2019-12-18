@@ -54,30 +54,34 @@ const CreateButton = styled(Link)`
 
 `;
 
-const Navigation = props => (
-  <Nav>
-    <div>
-      <CreateButton to={ROUTES.CREATE}>Create</CreateButton>
-      <StyledLink to={ROUTES.HELP}>Help</StyledLink>
-    </div>
-    <div>
-      {props.authUser ?
-        <UserAuthed />
-        :
-        (props.authUser === null ? (
-          <OrangeSpinner />
-        ): (
-          <UserNotAuthed />
-        ))
-      }
-    </div>
-  </Nav>
-);
+const Navigation = props => {
+
+  return (
+    <Nav>
+      <div>
+        <StyledLink to={ROUTES.LANDING}>Home</StyledLink>
+        <CreateButton to={ROUTES.NEW}>New Story</CreateButton>
+        <StyledLink to={ROUTES.HELP}>Help</StyledLink>
+      </div>
+      <div>
+        {props.authUser.info ?
+          <UserAuthed />
+          :
+          (props.authUser.info === null ? (
+            <OrangeSpinner />
+          ): (
+            <UserNotAuthed />
+          ))
+        }
+      </div>
+    </Nav>
+  );
+}
 
 
 const UserAuthed = () => (
   <Fragment>
-    <StyledLink to={ROUTES.STORIES}>Stories</StyledLink>
+    <StyledLink to={ROUTES.STORIES}>My Stories</StyledLink>
     <StyledLink to={ROUTES.ACCOUNT}>Account</StyledLink>
     <SignOut />
   </Fragment>
@@ -92,6 +96,7 @@ const UserNotAuthed = () => (
 
 const SignOutButton = ({ firebase, creation }) => {
   const _handleSignOut = () => {
+    console.log('clicked')
     firebase.doSignOut();
     creation.clearCreation();
   }

@@ -48,7 +48,7 @@ class SignUpFormBase extends Component {
       })
       .then( () => {
         this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.CREATE) //redirect to draw page
+        this.props.history.push(ROUTES.NEW) //redirect to draw page
       })
       .catch(error => this.setState({ error }));
   };

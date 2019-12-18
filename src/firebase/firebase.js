@@ -20,7 +20,10 @@ export default class Firebase {
   };
 
   //sign out
-  doSignOut = () => this.auth.signOut();
+  doSignOut = () => {
+    console.log('in firebase')
+    return this.auth.signOut();
+  }
 
   //password changes
   doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
@@ -39,7 +42,7 @@ export default class Firebase {
     if (!sid) {
       return this.db.collection('stories').add(data); //save new
     } else {
-      return this.db.collection('stories').doc(sid).set(data); //overwrite existing
+      return this.db.collection('stories').doc(sid).set(data, {merge: true}); //overwrite existing
     }
   }
   getStory = sid => this.db.collection('stories').doc(sid).get();

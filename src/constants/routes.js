@@ -4,15 +4,17 @@ export const SIGN_IN = '/signin';
 export const FORGOT = '/forgot';
 export const CHANGE = '/change';
 
-//draw/home
-export const CREATE = '/';
+//home
+export const LANDING = '/';
 
 //account
 export const ACCOUNT = '/account';
-export const STORIES = '/stories';
 
-//share
-export const STORY = '/story/:id';
+//stories
+export const NEW = '/new';
+export const STORIES = '/stories';
+export const STORY = '/stories/:storyid';
+export const EDIT = '/stories/:storyid/edit';
 
 //help
 export const HELP = '/help';

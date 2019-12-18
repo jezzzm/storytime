@@ -14,11 +14,10 @@ import CreateForm from './CreateForm';
 import BlueSpinner from '../app/BlueSpinner';
 
 const StyledDrawBox = styled.div`
-  padding: 1em;
+  padding: 1.5em;
   min-height: 100%;
   position: relative;
   flex: 1;
-  margin: 0 1.5em;
 `;
 
 const StyledDrawContainer = styled.div`
@@ -50,6 +49,21 @@ class Create extends Component {
       text: '',
       page: 0,
     }
+  }
+
+  componentDidMount() {
+    if (this.props.story) {
+      this.props.firebase
+        .getStory(this.props.story)
+        .then(doc => {
+          const story = doc.data();
+          this.props.creation.updateID(doc.id)
+          this.props.creation.updatePages(story.pages)
+          this.props.creation.updateTitle(story.title)
+          console.log(this.props.creation)
+        })
+    }
+
   }
 
   _handleNewDrawing = () => {
@@ -119,19 +133,26 @@ class Create extends Component {
 
   _handleSave = () => {
     const uid = this.props.firebase.auth.W;
-
+    console.log('saving...')
     if(!this.props.creation.id) { //not yet saved => new entry
       this.props.firebase.saveStory({
         uid: uid,
         pages: this.props.creation.pages,
-        title: this.props.creation.title
+        title: this.props.creation.title,
+        created: Date.now(),
+        modified: Date.now()
+      }).then(({ id }) => {
+        console.log('created: ', id);
+
+        this.props.creation.updateID(id)
       })
     } else { //update old entry
       this.props.firebase.saveStory({
-        uid: uid,
         pages: this.props.creation.pages,
-        title: this.props.creation.title
+        title: this.props.creation.title,
+        modified: Date.now()
       }, this.props.creation.id)
+      .then(() => console.log('updated: ', this.props.creation.id))
     }
 
     this.props.authUser.fetchStories();
@@ -178,7 +199,7 @@ class Create extends Component {
           <Fragment></Fragment>
         ):(
           <Fragment>
-              <Dice onClick={this._handleNewDrawing}/>
+            <Dice onClick={this._handleNewDrawing}/>
             <CreateForm onChange={this._handleTextChange} text={text} />
           </Fragment>
         )}

@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 import { withAuth } from './auth/authContext'
 import styled from '@emotion/styled';
+import Moment from 'react-moment';
+import * as ROUTES from '../constants/routes';
 
 //components
 import BlueSpinner from './app/BlueSpinner';
+import { Link } from 'react-router-dom';
+
 
 //TODO: trigger recheck on component mount
 const Stories = props => {
@@ -21,22 +25,33 @@ const Stories = props => {
 
 
 const StoriesLoaded = props => {
-  const stories = Object.values(props.stories);
+  const stories = props.stories;
+  const storyKeys = Object.keys(props.stories);
+  console.log(stories)
+
   return (
     <div>
-      <h1>Creations</h1>
+      <h1>My Stories</h1>
       <table>
       <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Created</th>
+          <th>Updated</th>
+          <th>Pages</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
-        {stories.map((s, i) => (
+        {storyKeys.map((id, i) => (
           <tr key={i}>
             <td>{i + 1}</td>
-            <td>{s.title ? s.title : 'Untitled'}</td>
-            <td>datetime created</td>
-            <td>datetime modified</td>
-            <td>{Object.keys(s.pages).length} pages</td>
-            <td>Link</td>
+            <td>{stories[id].title ? stories[id].title : 'Untitled'}</td>
+            <td><Moment format="YYYY/MM/DD" date={stories[id].created} /></td>
+            <td><Moment format="YYYY/MM/DD" date={stories[id].modified} /></td>
+            <td>{Object.keys(stories[id].pages).length}</td>
+            <td><Link to={ROUTES.STORIES + '/' + id}>Link</Link></td>
           </tr>
         ))}
       </tbody>
@@ -48,7 +63,7 @@ const StoriesLoaded = props => {
 
 const StoriesNotLoaded = () => (
   <div>
-    <h1>Creations</h1>
+    <h1>My Stories</h1>
     <BlueSpinner />
   </div>
 )

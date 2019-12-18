@@ -35,17 +35,21 @@ const withAuthProvider = InnerComponent => {
             stories[doc.id] = doc.data();
           })
           this.setState({
-            authUser: {
-              ...this.state.authUser,
-              stories
-            }
+            authUser: this.state.authUser,
+            stories
+
           })
         })
     }
 
     render() {
       return (
-        <AuthContext.Provider value={{...this.state.authUser, fetchStories: this.fetchStories}}>
+        <AuthContext.Provider value={{
+            info: this.state.authUser,
+            stories: this.state.stories,
+            fetchStories: this.fetchStories
+          }}
+        >
           <InnerComponent {...this.props} />
         </AuthContext.Provider>
       );

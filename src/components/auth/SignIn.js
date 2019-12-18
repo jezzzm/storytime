@@ -32,17 +32,8 @@ class SignInFormBase extends Component {
     const { email, password } = this.state;
     this.props.firebase
       .doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        //access all records
-        // this.props.firebase.users()
-        //   .then(res => res.forEach(u => console.log(u.data())));
-        // this.setState({ ...INITIAL_STATE });
-        this.props.history.push(ROUTES.CREATE);
-      })
-      .catch(error => {
-
-        this.setState({ ...INITIAL_STATE, error });
-      });
+      .then(() => this.props.history.push(ROUTES.NEW))
+      .catch(error => this.setState({ ...INITIAL_STATE, error }));
   };
 
   _handleChange = e => {
@@ -88,7 +79,7 @@ const GoogleSignInBase = ({ firebase, history }) => {
     e.preventDefault();
     firebase
       .doSignInWithGoogle()
-      .then( () => history.push(ROUTES.CREATE))
+      .then( () => history.push(ROUTES.NEW))
       .catch(console.log)
   }
 

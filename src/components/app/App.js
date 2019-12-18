@@ -15,11 +15,13 @@ import SignUp from '../auth/SignUp';
 import SignIn from '../auth/SignIn';
 import PasswordForgot from '../auth/PasswordForgot';
 import PasswordChange from '../auth/PasswordChange';
-import Create from '../create/Create';
+import New from '../create/Create';
 import Stories from '../Stories'
 import Account from '../Account';
 import Help from '../Help';
 import Story from '../Story';
+import Edit from '../Edit';
+import Landing from '../Landing';
 
 const StyledContainer = styled.div`
   min-height: 100vh;
@@ -29,7 +31,6 @@ const StyledContainer = styled.div`
 `;
 
 const StyledMain = styled.main`
-  padding: 1.5em 0 0;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -40,15 +41,18 @@ const App = () => (
     <StyledContainer>
       <Navigation />
       <StyledMain>
-        <Route exact path={ROUTES.CREATE} component={Create} />
-        <Route path={ROUTES.SIGN_UP} component={SignUp} />
-        <Route path={ROUTES.SIGN_IN} component={SignIn} />
-        <Route path={ROUTES.FORGOT} component={PasswordForgot} />
-        <Route path={ROUTES.CHANGE} component={PasswordChange} />
-        <Route path={ROUTES.ACCOUNT} component={Account} />
-        <Route path={ROUTES.STORIES} component={Stories} />
-        <Route path={ROUTES.STORY} component={Story} />
-        <Route path={ROUTES.HELP} component={Help} />
+        <Route exact path={ROUTES.NEW} component={New} />
+        <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
+        <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+        <Route exact path={ROUTES.FORGOT} component={PasswordForgot} />
+        <Route exact path={ROUTES.CHANGE} component={PasswordChange} />
+        <Route exact path={ROUTES.ACCOUNT} component={Account} />
+        <Route exact path={ROUTES.STORIES} component={Stories} />
+        <Route exact path={ROUTES.STORY} component={Story} />
+        <Route exact path={ROUTES.EDIT} component={Edit} />
+
+        <Route exact path={ROUTES.HELP} component={Help} />
+        <Route exact path={ROUTES.LANDING} component={Landing} />
       </StyledMain>
     </StyledContainer>
   </Router>

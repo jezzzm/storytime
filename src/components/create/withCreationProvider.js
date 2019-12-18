@@ -27,9 +27,9 @@ const withCreationProvider = InnerComponent => {
         });
     }
 
-    updatePages = pages => {
-      this.setState({pages: pages})
-    }
+    updatePages = pages => this.setState({pages: pages})
+    updateID = id => this.setState({id: id})
+    updateTitle = title => this.setState({title: title})
 
     clearCreation = () => {
       this.setState({
@@ -44,7 +44,9 @@ const withCreationProvider = InnerComponent => {
           value={{
             ...this.state,
             updatePages: pages => this.updatePages(pages),
-            clearCreation: this.clearCreation
+            clearCreation: this.clearCreation,
+            updateID: id => this.updateID(id),
+            updateTitle: title => this.updateTitle(title)
           }}>
           <InnerComponent {...this.props} />
         </CreationContext.Provider>
