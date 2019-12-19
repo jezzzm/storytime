@@ -22,7 +22,7 @@ const Nav = styled.nav`
   color: white;
   display: flex;
   justify-content: space-between;
-  padding: 1.5em;
+  padding: 1em 1.5em;
   font-family: ${S.FANCY};
   a {
     text-decoration: none;
@@ -46,6 +46,18 @@ const Nav = styled.nav`
       box-shadow: ${S.S_SHADOW_H}
     }
   }
+  a.home {
+    font-size: 2em;
+    font-family: 'Gaegu', sans-serif;
+    color: ${S.COPY};
+    margin-right: 1em;
+    text-shadow: 1px 1px 0 #fff;
+    transition: 0.3s all;
+    &:hover {
+      text-shadow: none;
+
+    }
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -55,16 +67,22 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledSection = styled.div`
+  display: flex;
+  align-items:center;
+
+`;
+
 const Navigation = props => {
 
   return (
     <Nav>
-      <div>
-        <StyledLink to={ROUTES.LANDING}>Home</StyledLink>
+      <StyledSection>
+        <Link to={ROUTES.LANDING} className="home">storytime</Link>
         <Link to={ROUTES.NEW} className="btn new">New Story</Link>
         <StyledLink to={ROUTES.HELP}>Help</StyledLink>
-      </div>
-      <div>
+      </StyledSection>
+      <StyledSection>
         {props.authUser.info ?
           <UserAuthed />
           :
@@ -74,7 +92,7 @@ const Navigation = props => {
             <UserNotAuthed />
           ))
         }
-      </div>
+      </StyledSection>
     </Nav>
   );
 }

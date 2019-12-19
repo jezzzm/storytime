@@ -25,34 +25,38 @@ const StyledRnd = styled(Rnd)`
 export default class Drawing extends Component {
 
   componentDidMount() {
-    this.props.drawingChanged(this.props.drawing.id, {
-      path: this.buildPath()
-    });
+    const data = this.parseData()
+    this.props.drawingChanged(this.props.drawing.id, data);
   }
 
-  buildPath() {
-    let data = '';
+  parseData() {
+    let path = '';
     const drawing = this.props.drawing
     const coords = drawing.coords;
 
-    //iterate through coord pairs to generate SVG path string
+    let [nativeWidth, nativeHeight] = [0, 0]; //to set our initial aspect ratio correctly
+
+    //iterate through coord pairs to generate SVG path string, also check aspect ratio
     for (let stroke in coords) {
       let pathSegment = 'M'
       let strokeArray = Object.values(coords[stroke])[0];
 
       strokeArray.forEach((p, i) => {
-        const newX = p.x/250 * drawing.width + 10;
-        const newY = p.y/250 * drawing.height + 10;
-
-        //we already have the Move key for the first pair
+        if (p.x > nativeWidth) nativeWidth = p.x;
+        if (p.y > nativeHeight) nativeHeight = p.y;
         if (i !== 0) pathSegment += 'L';
-
-        pathSegment += newX + ',' + newY
+        pathSegment += p.x + ',' + p.y
         if (i !== strokeArray.length - 1) pathSegment += ',';
       });
-      data += pathSegment
+      path += pathSegment
     }
-    return data;
+    return {
+      path,
+      nativeWidth,
+      nativeHeight,
+      width: nativeWidth,
+      height: nativeHeight
+    };
   }
 
   _handleDragStop = (e, d) => { //update context for position
@@ -66,29 +70,30 @@ export default class Drawing extends Component {
     this.props.drawingChanged(this.props.drawing.id, {
       width: ref.offsetWidth,
       height: ref.offsetHeight,
-      path: this.buildPath(),
       ...pos
     });
   };
 
   render() {
     const drawing = this.props.drawing;
-    const widthSVG = drawing.width + 30;
-    const heightSVG = drawing.height + 30;
-    const widthRnd = drawing.width + 46;
-    const heightRnd = drawing.height + 46;
+    const {width, height, x, y, nativeWidth, nativeHeight} = drawing;
 
     return(
       <StyledRnd
-        size={{width: widthRnd, height: heightRnd}}
-        position={{x: drawing.x, y: drawing.y}}
+        size={{width, height}}
+        position={{x, y}}
         onDragStop={this._handleDragStop}
         onResize={this._handleResize}
         bounds="parent"
       >
-        <StyledSVG width={widthSVG} height={heightSVG}>
+        <StyledSVG
+          width={width}
+          height={height}
+          viewBox={`0 0 ${nativeWidth} ${nativeHeight}`}
+          preserveAspectRatio="none"
+        >
           <Defs />
-          <path d={drawing.path} filter="url(#f2)" />
+          <path d={drawing.path} filter="url(#svg-shadow)" />
         </StyledSVG>
       </StyledRnd>
     );
@@ -97,7 +102,7 @@ export default class Drawing extends Component {
 
 const Defs = () => (
   <defs>
-    <filter id="f2" x="0" y="0" width="120%" height="120%">
+    <filter id="svg-shadow" x="0" y="0" width="120%" height="120%">
       <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
       <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
       <feComponentTransfer>
