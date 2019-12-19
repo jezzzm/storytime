@@ -33,7 +33,7 @@ Check out the deployed project on [Firebase](https://storytime-261823.firebaseap
 
 ## Getting Started
 * Demo on [Firebase](https://storytime-261823.firebaseapp.com)
-* To deploy yourself, clone the repo and setup your own firebase project.
+* To deploy yourself, clone the repo, `npm i`, and [setup](https://console.firebase.google.com/) your own firebase project.
 * Utilises firestore. Add own `config.js` to `/src/firebase:`
 ```js
 export default {
