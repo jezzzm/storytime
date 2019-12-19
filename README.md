@@ -1,5 +1,6 @@
 # storytime: Final Project @ GA sydney
 
+![screenshot of storytime](https://github.com/jezzzm/storytime/raw/master/public/screenshot.png)
 storytime is an interactive writing prompt tool for the creation of online 'picture books'. It makes use of the publicly available [Google Quick, Draw! data](https://github.com/googlecreativelab/quickdraw-dataset).
 
 Upon click of a button, a random image is served as an SVG, allowing vector-based manipulation of scale and aspect. The aim is to add as few or as many of these images as is desired, in order to provide a creative writing prompt. The copy text can be entered at the bottom of the screen.
