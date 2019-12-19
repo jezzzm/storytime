@@ -8,7 +8,7 @@ import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../../firebase';
 
 //components
-import BlueSpinner from '../app/BlueSpinner';
+import SpinnerBlue from '../general/SpinnerBlue';
 
 const SignIn = () => (
   <div>
@@ -72,7 +72,7 @@ class SignInFormBase extends Component {
           Sign In
         </button>
         {error && <p>{error.message}</p>}
-        {isLoggingIn && <BlueSpinner />}
+        {isLoggingIn && <SpinnerBlue />}
       </form>
     );
   }

@@ -1,16 +1,20 @@
 import React from 'react';
 
 //context
-import { withAccess } from './auth/authContext';
+import { withAccess} from './auth/authContext';
 
 //components
-import PasswordChange from './auth/PasswordChange'
+import PasswordChange from './auth/PasswordChange';
+import Container from './general/Container';
+import Heading from './general/Heading';
+import MyDetails from './auth/MyDetails';
 
 const Account = () => (
-  <div>
-    <h1>Account</h1>
+  <Container>
+    <Heading>My Account</Heading>
+    <MyDetails />
     <PasswordChange />
-  </div>
+  </Container>
 );
 
-export default withAccess()(Account)
+export default withAccess()(Account);

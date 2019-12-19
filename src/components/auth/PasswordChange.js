@@ -30,6 +30,7 @@ class PasswordChange extends Component {
 
     return (
       <form onSubmit={this._handleSubmit}>
+        <h2>Change My Password</h2>
         <input
           name="password"
           value={password}

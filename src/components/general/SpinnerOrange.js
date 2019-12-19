@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrangeSpinner = () => (
+const SpinnerOrange = () => (
   <svg xmlns="http://www.w3.org/2000/svg" style={{margin: 'auto', background: 'none', display: 'block', shapeRendering: 'auto'}} width="20px" height="20px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
     <circle cx="50" cy="50" r="32" strokeWidth="8" stroke="#94c8fd" strokeDasharray="50.26548245743669 50.26548245743669" fill="none" strokeLinecap="round" transform="rotate(55.8814 50 50)">
       <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
@@ -11,4 +11,4 @@ const OrangeSpinner = () => (
   </svg>
 );
 
-export default OrangeSpinner;
+export default SpinnerOrange;

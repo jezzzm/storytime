@@ -5,12 +5,7 @@ import Create from './create/Create';
 
 const Edit = (props) => {
   const storyid = props.match.params.storyid;
-  return (
-    <Fragment>
-      <p>Editing {storyid}</p>
-      <Create story={storyid}/>
-    </Fragment>
-  );
+  return <Create story={storyid}/>;
 }
 
 export default Edit;

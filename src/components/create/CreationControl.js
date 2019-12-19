@@ -6,6 +6,11 @@ import styled from '@emotion/styled';
 import TextareaAutosize from 'react-textarea-autosize';
 import * as S from '../../constants/style';
 
+//components
+import ButtonGreen from '../general/ButtonGreen';
+import ButtonBlue from '../general/ButtonBlue';
+
+
 const StyledInput = styled(TextareaAutosize)`
   border: 0;
   background: transparent;
@@ -14,14 +19,17 @@ const StyledInput = styled(TextareaAutosize)`
   padding: 0.7em;
   flex:1;
   resize: none;
-  font-family: 'Pangolin', sans-serif;
   transition: 0.3s box-shadow;
   &:focus {
     outline: none;
     box-shadow: inset 10px 0px 0px ${S.L_BLUE};
+    &::placeholder {
+      color: transparent;
+    }
   }
   &::placeholder {
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.7);
+    transition: 0.2s all;
   }
 `;
 
@@ -31,28 +39,11 @@ const StyledContainer = styled.div`
   box-shadow: ${S.L_SHADOW_U};
   align-items: center;
   a {
-    text-decoration: none;
-    font-family: ${S.FANCY};
-    color: ${S.COPY};
-    padding: 0.5em 1.5em;
-    border-radius: 0.2em;
     margin-right: 1em;
-    box-shadow: ${S.S_SHADOW};
-    transition: 0.2s box-shadow;
-    &:hover {
-      box-shadow: ${S.S_SHADOW_H}
-    }
-  }
-  a.clear {
-    background: ${S.L_BLUE}
-  }
-  a.save {
-    background: ${S.GREEN};
   }
 `;
 
-
-const CreateForm = props => (
+const CreationControl = props => (
   <StyledContainer>
     <StyledInput
       placeholder="What's the story?"
@@ -64,16 +55,10 @@ const CreateForm = props => (
       minRows={1}
       maxRows={5}
     />
-    <input
-      name="title"
-      onChange={props.onTitleChange}
-      value={props.title}
-      placeholder="Title of the Story"
-    />
-    <Link to="#" onClick={props.onClear} className="clear">Clear</Link>
-    {props.isAuthed && <Link to="#" onClick={props.onSave} className="save">Save</Link>}
+    <ButtonBlue to="#" onClick={props.onClear}>Clear</ButtonBlue>
+    {props.isAuthed && <ButtonGreen to="#" onClick={props.onSave}>Save</ButtonGreen>}
   </StyledContainer>
 );
 
 
-export default CreateForm;
+export default CreationControl;

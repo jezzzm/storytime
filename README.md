@@ -59,6 +59,8 @@ export default {
 * Voting system
 * Leaderboards
 * Friends
+* Arrow key navigation between pages
+* Page flip animation
 
 ## Source
 * GA Sydney set the project task, albeit pretty open ended! I wanted to explore SVG graphics, big data management, and especially more advanced features of React like context, hooks, and higher order components. It was good to implement Firebase as backend (and frontend host) for the first time as well.

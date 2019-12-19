@@ -1,8 +1,11 @@
 import React from 'react';
 
+//components
+import Container from './general/Container'
+import Heading from './general/Heading'
 
 export default () => (
-  <div>
-    <h1>Help</h1>
-  </div>
+  <Container>
+    <Heading>Help</Heading>
+  </Container>
 );

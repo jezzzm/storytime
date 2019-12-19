@@ -12,9 +12,13 @@ import * as S from '../../constants/style';
 import { withFirebase } from '../../firebase';
 import { withCreation } from '../create/CreationContext';
 import { withAuth } from '../auth/authContext';
+import { withRouter } from 'react-router';
 
 //components
-import OrangeSpinner from './OrangeSpinner';
+import SpinnerOrange from '../general/SpinnerOrange';
+import ButtonGreen from '../general/ButtonGreen';
+import ButtonBlue from '../general/ButtonBlue';
+import Logo from '../general/Logo';
 
 const Nav = styled.nav`
   background: linear-gradient(90deg, ${S.M_BLUE}, ${S.D_BLUE});
@@ -23,45 +27,18 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   padding: 1em 1.5em;
-  font-family: ${S.FANCY};
-  a {
-    text-decoration: none;
-    transition: 0.2s box-shadow;
-    color: white;
-  }
-  a.new {
-    background: ${S.GREEN};
+  .left {
     margin-right: 1em;
   }
-  a.auth {
-    background: ${S.L_BLUE};
+  .right {
     margin-left: 1em;
-  }
-  a.btn {
-    padding: 0.5em 1.5em;
-    box-shadow: ${S.S_SHADOW};
-    border-radius: 0.2em;
-    color: ${S.COPY};
-    &:hover {
-      box-shadow: ${S.S_SHADOW_H}
-    }
-  }
-  a.home {
-    font-size: 2em;
-    font-family: 'Gaegu', sans-serif;
-    color: ${S.COPY};
-    margin-right: 1em;
-    text-shadow: 1px 1px 0 #fff;
-    transition: 0.3s all;
-    &:hover {
-      text-shadow: none;
-
-    }
   }
 `;
 
 const StyledLink = styled(Link)`
   margin-right: 1em;
+  color: white;
+  text-decoration:none;
   &:hover {
     text-decoration: underline;
   }
@@ -74,20 +51,20 @@ const StyledSection = styled.div`
 `;
 
 const Navigation = props => {
-
+  const authStatus = props.authUser.info;
   return (
     <Nav>
       <StyledSection>
-        <Link to={ROUTES.LANDING} className="home">storytime</Link>
-        <Link to={ROUTES.NEW} className="btn new">New Story</Link>
+        <Logo to={ROUTES.LANDING} className="left" />
+        <ButtonGreen to={ROUTES.NEW} className="left">New Story</ButtonGreen>
         <StyledLink to={ROUTES.HELP}>Help</StyledLink>
       </StyledSection>
       <StyledSection>
-        {props.authUser.info ?
+        {authStatus ?
           <UserAuthed />
           :
-          (props.authUser.info === null ? (
-            <OrangeSpinner />
+          (authStatus === null ? (
+            <SpinnerOrange />
           ): (
             <UserNotAuthed />
           ))
@@ -101,32 +78,32 @@ const Navigation = props => {
 const UserAuthed = () => (
   <Fragment>
     <StyledLink to={ROUTES.STORIES}>My Stories</StyledLink>
-    <StyledLink to={ROUTES.ACCOUNT}>Account</StyledLink>
+    <StyledLink to={ROUTES.ACCOUNT}>My Account</StyledLink>
     <SignOut />
   </Fragment>
 );
 
 const UserNotAuthed = () => (
   <Fragment>
-    <Link to={ROUTES.SIGN_IN} className="btn auth">Sign In</Link>
-    <Link to={ROUTES.SIGN_UP} className="btn auth">Sign Up</Link>
+    <ButtonBlue to={ROUTES.SIGN_IN} className="right">Sign In</ButtonBlue>
+    <ButtonGreen to={ROUTES.SIGN_UP} className="right">Create Account</ButtonGreen>
   </Fragment>
 );
 
-const SignOutButton = ({ firebase, creation }) => {
+const SignOutButton = ({ history, firebase, creation }) => {
   const _handleSignOut = () => {
-    console.log('clicked')
     firebase.doSignOut();
     creation.clearCreation();
+    history.push(ROUTES.LANDING)
   }
 
   return (
-    <Link to="#" onClick={_handleSignOut} className="btn auth">
+    <ButtonBlue to="#" onClick={_handleSignOut} className="right">
       Sign Out
-    </Link>
+    </ButtonBlue>
   );
 }
 
-export const SignOut = withFirebase(withCreation(SignOutButton));
+export const SignOut = withFirebase(withCreation(withRouter(SignOutButton)));
 
 export default withAuth(Navigation);

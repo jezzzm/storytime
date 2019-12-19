@@ -9,38 +9,14 @@ import { withCreation } from './CreationContext';
 import { withAuth } from '../auth/authContext';
 
 //components
-import Drawing from './Drawing';
 import Dice from './Dice';
-import CreateForm from './CreateForm';
-import BlueSpinner from '../app/BlueSpinner';
+import CreationControl from './CreationControl';
+import SpinnerBlue from '../general/SpinnerBlue';
+import DrawContent from './DrawContent'
 
-const StyledDrawBox = styled.div`
-  padding: 1.5em;
-  min-height: 100%;
-  position: relative;
-  flex: 1;
-`;
-
-const StyledDrawContainer = styled.div`
+const StyledPage = styled.div`
   flex: 1;
   display: flex;
-`;
-
-const StyledPageNav = styled.button`
-  font-size: 2rem;
-  color: rgba(255,255,255,0.5);
-  background: transparent;
-  border: 0;
-  transition: 0.3s box-shadow;
-  cursor: pointer;
-  &:focus {
-    outline: none;
-    color: white;
-  }
-  &:hover {
-    outline: none;
-    color: white;
-  }
 `;
 
 class Create extends Component {
@@ -95,8 +71,8 @@ class Create extends Component {
                   id: doc.id,
                   height: 250,
                   width: 250,
-                  x: 0, //TODO: can randomise these for variation to start placement
-                  y: 0
+                  x: window.screen.availWidth/2.5, //TODO: can randomise these for variation to start placement
+                  y: window.screen.availHeight/4
                 }
               }
             }
@@ -167,7 +143,7 @@ class Create extends Component {
       .then(() => {
         console.log('updated: ', this.props.creation.id);
         console.log(this.props.creation)
-        
+
         this.setState({isSaving: false});
       })
     }
@@ -219,38 +195,29 @@ class Create extends Component {
 
     return(
       <Fragment>
-        <StyledDrawContainer>
+        <StyledPage>
           {isLoadingIndex || isLoadingStory || isSaving ? (
-            <BlueSpinner />
+            <SpinnerBlue />
           ):(
-            <Fragment>
-              <StyledPageNav name="back" onClick={this._handlePageNav}>&larr;</StyledPageNav>
-              <StyledDrawBox>
-                {drawings.map((d, i) => (
-                  <Drawing
-                    drawing={d}
-                    key={i}
-                    name={d.id}
-                    currentPage={this.state.page}
-                    drawingChanged={(id, data) => this._handleDrawingChange(id, data)}
-                  />
-                ))}
-              </StyledDrawBox>
-              <StyledPageNav name="forward" onClick={this._handlePageNav}>&rarr;</StyledPageNav>
-            </Fragment>
+            <DrawContent
+              drawings={drawings}
+              page={this.state.page}
+              changePage={this._handlePageNav}
+              drawingChange={this._handleDrawingChange}
+              title={title}
+              onTitleChange={this._handleTitleChange}
+            />
           )}
-        </StyledDrawContainer>
+        </StyledPage>
         {!isLoadingIndex && (
           <Fragment>
             <Dice onClick={this._handleNewDrawing}/>
-            <CreateForm
+            <CreationControl
               text={text}
               onTextChange={this._handleTextChange}
               onClear={this._handleClear}
               onSave={this._handleSave}
               isAuthed={isAuthed}
-              title={title}
-              onTitleChange={this._handleTitleChange}
             />
           </Fragment>
         )}
@@ -258,5 +225,7 @@ class Create extends Component {
     );
   }
 };
+
+
 
 export default withFirebase(withCreation(withAuth(Create)));
