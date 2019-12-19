@@ -1,5 +1,26 @@
 import React, { Component } from 'react';
+
+//styles
+import styled from '@emotion/styled';
+import * as S from '../../constants/style';
+//context
 import { withFirebase } from '../../firebase';
+
+//components
+import ButtonBlue from '../general/ButtonBlue';
+
+const StyledInput = styled.input`
+  padding: 1em;
+  margin-right: 2em;
+  border: 0;
+  font-size: 1.1em;
+  font-family: ${S.FANCY};
+  background: rgba(255,255,255,0.8);
+`;
+
+const H2 = styled.h2`
+  margin: 2em 0 1em;
+`;
 
 const INITIAL_STATE = {
   password: '',
@@ -30,8 +51,8 @@ class PasswordChange extends Component {
 
     return (
       <form onSubmit={this._handleSubmit}>
-        <h2>Change My Password</h2>
-        <input
+        <H2>Change My Password</H2>
+        <StyledInput
           name="password"
           value={password}
           onChange={this._handleChange}
@@ -39,7 +60,7 @@ class PasswordChange extends Component {
           placeholder="New Password"
           autoComplete="on"
         />
-        <input
+      <StyledInput
           name="passwordConf"
           value={passwordConf}
           onChange={this._handleChange}
@@ -47,9 +68,9 @@ class PasswordChange extends Component {
           placeholder="Confirm New Password"
           autoComplete="on"
         />
-        <button disabled={isInvalid} type="submit">
-          Reset Password
-        </button>
+      <ButtonBlue disabled={isInvalid} type="submit">
+          Change Password
+        </ButtonBlue>
         {error && <p>{error.message}</p>}
       </form>
     );

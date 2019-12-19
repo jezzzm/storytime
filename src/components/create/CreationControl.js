@@ -17,6 +17,7 @@ const StyledInput = styled(TextareaAutosize)`
   font-size: 1.5rem;
   color: ${S.COPY};
   padding: 0.7em;
+  font-family: 'Pangolin', sans-serif;
   flex:1;
   resize: none;
   transition: 0.3s box-shadow;
