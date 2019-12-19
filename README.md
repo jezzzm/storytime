@@ -30,6 +30,8 @@ Check out the deployed project on [Firebase](https://storytime-261823.firebaseap
   * [moment.js](https://github.com/moment/moment) (datetime formatting)
   * [react-rnd](https://github.com/bokuweb/react-rnd) (resizable components)
   * [react-textarea-autosize](https://github.com/buildo/react-autosize-textarea) (helps textareas to behave well)
+* [loading.io](https://loading.io) spinners
+* [FontAwesome](https://fontawesome.com) icons
 
 ## Getting Started
 * Demo on [Firebase](https://storytime-261823.firebaseapp.com)
@@ -59,4 +61,4 @@ export default {
 * Friends
 
 ## Source
-* GA Sydney set the project task, that said, it's pretty open ended!
+* GA Sydney set the project task, albeit pretty open ended! I wanted to explore SVG graphics, big data management, and especially more advanced features of React like context, hooks, and higher order components. It was good to implement Firebase as backend (and frontend host) for the first time as well.

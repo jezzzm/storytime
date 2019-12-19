@@ -5,10 +5,10 @@ import { withFirebase } from '../../firebase';
 const INITIAL_STATE = {
   drawingsIndex: null,
   title: '',
-  pages: [{
+  pages: {0:{
     text:'',
     drawings: {}
-  }],
+  }},
   id: null
 }
 
@@ -27,6 +27,10 @@ const withCreationProvider = InnerComponent => {
         });
     }
 
+    addPage = num => {
+      console.log(this.state.pages)
+      this.setState({pages: {...this.state.pages, [num]: INITIAL_STATE.pages[0]}})
+    }
     updatePages = pages => this.setState({pages: pages})
     updateID = id => this.setState({id: id})
     updateTitle = title => this.setState({title: title})
@@ -43,6 +47,7 @@ const withCreationProvider = InnerComponent => {
         <CreationContext.Provider
           value={{
             ...this.state,
+            addPage: this.addPage,
             updatePages: pages => this.updatePages(pages),
             clearCreation: this.clearCreation,
             updateID: id => this.updateID(id),

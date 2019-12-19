@@ -48,7 +48,8 @@ class Create extends Component {
     this.state = {
       text: '',
       page: 0,
-      isLoadingStory: true
+      isLoadingStory: true,
+      isSaving: false
     }
   }
 
@@ -142,6 +143,8 @@ class Create extends Component {
   }
 
   _handleSave = () => {
+    this.setState({isSaving: true})
+
     const uid = this.props.firebase.auth.W;
     if(!this.props.creation.id) { //not yet saved => new entry
       this.props.firebase.saveStory({
@@ -152,8 +155,8 @@ class Create extends Component {
         modified: Date.now()
       }).then(({ id }) => {
         console.log('created: ', id);
-
-        this.props.creation.updateID(id)
+        this.props.creation.updateID(id);
+        this.setState({isSaving: false});
       })
     } else { //update old entry
       this.props.firebase.saveStory({
@@ -161,7 +164,10 @@ class Create extends Component {
         title: this.props.creation.title,
         modified: Date.now()
       }, this.props.creation.id)
-      .then(() => console.log('updated: ', this.props.creation.id))
+      .then(() => {
+        console.log('updated: ', this.props.creation.id);
+        this.setState({isSaving: false});
+      })
     }
     this.props.authUser.fetchStories();
   }
@@ -180,8 +186,28 @@ class Create extends Component {
     });
   }
 
+  _handlePageNav = e => {
+    e.preventDefault();
+    const curr = this.state.page;
+    const dir = e.target.name;
+
+    if (curr === 0 && dir === 'back') { //can't go back
+      console.log('at beginning')
+      // TODO: more here
+    } else {
+      if (dir === "back") {
+        this.setState({page: curr - 1}) //move back
+      } else {
+        if(!this.props.creation.pages[curr + 1]) { //doesn't exist yet, create
+          this.props.creation.addPage(curr + 1);
+        }
+        this.setState({page: curr + 1}) //move forward
+      }
+    }
+  }
+
   render() {
-    const isLoadingStory = this.state.isLoadingStory;
+    const {isLoadingStory, isSaving} = this.state;
     const isLoadingIndex = !this.props.creation.drawingsIndex;
     const isAuthed = !!this.props.authUser.info;
     const current = this.props.creation.pages[this.state.page];
@@ -192,11 +218,11 @@ class Create extends Component {
     return(
       <Fragment>
         <StyledDrawContainer>
-          {isLoadingIndex || isLoadingStory ? (
+          {isLoadingIndex || isLoadingStory || isSaving ? (
             <BlueSpinner />
           ):(
             <Fragment>
-              <StyledPageNav>&larr;</StyledPageNav>
+              <StyledPageNav name="back" onClick={this._handlePageNav}>&larr;</StyledPageNav>
               <StyledDrawBox>
                 {drawings.map((d, i) => (
                   <Drawing
@@ -208,7 +234,7 @@ class Create extends Component {
                   />
                 ))}
               </StyledDrawBox>
-              <StyledPageNav>&rarr;</StyledPageNav>
+              <StyledPageNav name="forward" onClick={this._handlePageNav}>&rarr;</StyledPageNav>
             </Fragment>
           )}
         </StyledDrawContainer>
