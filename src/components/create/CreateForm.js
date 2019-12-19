@@ -58,11 +58,17 @@ const CreateForm = props => (
       placeholder="What's the story?"
       value={props.text}
       name="text"
-      onChange={props.onChange}
+      onChange={props.onTextChange}
       autoComplete="off"
       autoFocus="on"
       minRows={1}
       maxRows={5}
+    />
+    <input
+      name="title"
+      onChange={props.onTitleChange}
+      value={props.title}
+      placeholder="Title of the Story"
     />
     <Link to="#" onClick={props.onClear} className="clear">Clear</Link>
     {props.isAuthed && <Link to="#" onClick={props.onSave} className="save">Save</Link>}

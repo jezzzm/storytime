@@ -41,6 +41,7 @@ const StoriesLoaded = props => {
           <th>Updated</th>
           <th>Pages</th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -51,7 +52,8 @@ const StoriesLoaded = props => {
             <td><Moment format="YYYY/MM/DD" date={stories[id].created} /></td>
             <td><Moment format="YYYY/MM/DD" date={stories[id].modified} /></td>
             <td>{Object.keys(stories[id].pages).length}</td>
-            <td><Link to={ROUTES.STORIES + '/' + id}>Link</Link></td>
+            <td><Link to={ROUTES.STORIES + '/' + id}>View</Link></td>
+            <td><Link to={ROUTES.STORIES + '/' + id + '/edit'}>Edit</Link></td>
           </tr>
         ))}
       </tbody>

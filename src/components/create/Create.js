@@ -119,6 +119,9 @@ class Create extends Component {
     });
   }
 
+  _handleTitleChange = e => {
+    this.props.creation.updateTitle(e.target.value)
+  }
   _handleDrawingChange = (id, data) => {
     const pages = this.props.creation.pages;
     const curr = this.state.page;
@@ -184,6 +187,7 @@ class Create extends Component {
     const current = this.props.creation.pages[this.state.page];
     const drawings = Object.values(current.drawings);
     const text = current ? current.text : '';
+    const title= this.props.creation.title;
 
     return(
       <Fragment>
@@ -213,10 +217,12 @@ class Create extends Component {
             <Dice onClick={this._handleNewDrawing}/>
             <CreateForm
               text={text}
-              onChange={this._handleTextChange}
+              onTextChange={this._handleTextChange}
               onClear={this._handleClear}
               onSave={this._handleSave}
               isAuthed={isAuthed}
+              title={title}
+              onTitleChange={this._handleTitleChange}
             />
           </Fragment>
         )}
