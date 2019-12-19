@@ -80,7 +80,6 @@ export default class Drawing extends Component {
   render() {
     const drawing = this.props.drawing;
     const {width, height, x, y, nativeWidth, nativeHeight} = drawing;
-
     return(
       <StyledRnd
         size={{width, height}}

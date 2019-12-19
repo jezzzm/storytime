@@ -144,8 +144,6 @@ class Create extends Component {
       }, this.props.creation.id)
       .then(() => {
         console.log('updated: ', this.props.creation.id);
-        console.log(this.props.creation)
-
         this.setState({isSaving: false});
         this.props.authUser.fetchUserData(this.props.authUser.info.uid);
 
