@@ -50,12 +50,15 @@ export default class Drawing extends Component {
       });
       path += pathSegment
     }
+    const startWidth = this.props.drawing.nativeWidth ? drawing.width : nativeWidth
+    const startHeight = this.props.drawing.nativeHeight ? drawing.height : nativeHeight
+
     return {
       path,
       nativeWidth,
       nativeHeight,
-      width: nativeWidth,
-      height: nativeHeight
+      width: startWidth,
+      height: startHeight
     };
   }
 

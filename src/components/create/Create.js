@@ -47,7 +47,6 @@ class Create extends Component {
   constructor() {
     super()
     this.state = {
-      text: '',
       page: 0,
       isLoadingStory: true,
       isSaving: false
@@ -145,7 +144,7 @@ class Create extends Component {
 
   _handleSave = () => {
     this.setState({isSaving: true})
-
+    console.log(this.props.creation)
     const uid = this.props.firebase.auth.W;
     if(!this.props.creation.id) { //not yet saved => new entry
       this.props.firebase.saveStory({
@@ -167,6 +166,8 @@ class Create extends Component {
       }, this.props.creation.id)
       .then(() => {
         console.log('updated: ', this.props.creation.id);
+        console.log(this.props.creation)
+        
         this.setState({isSaving: false});
       })
     }
