@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { withAuth } from './auth/authContext'
 import styled from '@emotion/styled';
 import Moment from 'react-moment';
 import * as ROUTES from '../constants/routes';
@@ -8,10 +7,10 @@ import * as ROUTES from '../constants/routes';
 import BlueSpinner from './app/BlueSpinner';
 import { Link } from 'react-router-dom';
 
+//context
+import { withAuth, withAccess } from './auth/authContext'
 
-//TODO: trigger recheck on component mount
 const Stories = props => {
-
   return (
     <Fragment>
       {props.authUser.stories ? (
@@ -27,7 +26,6 @@ const Stories = props => {
 const StoriesLoaded = props => {
   const stories = props.stories;
   const storyKeys = Object.keys(props.stories);
-  console.log(stories)
 
   return (
     <div>
@@ -70,4 +68,4 @@ const StoriesNotLoaded = () => (
   </div>
 )
 
-export default withAuth(Stories);
+export default withAccess()(withAuth(Stories));

@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 
 //styles
 import styled from '@emotion/styled';
-import * as S from '../../constants/style'
-
 
 const StyledSVG = styled.svg`
   margin-top:5px;
@@ -15,7 +13,6 @@ const StyledSVG = styled.svg`
     fill: rgba(255,255,255,0.8);
     transition: 0.2s fill;
   }
-
 `;
 
 const StyledAnchor = styled(Link)`

@@ -19,6 +19,9 @@ export default class Firebase {
     return this.auth.signInWithPopup(provider);
   };
 
+  //auth check
+  authedUser = authUser => !!authUser;
+
   //sign out
   doSignOut = () => {
     console.log('in firebase')

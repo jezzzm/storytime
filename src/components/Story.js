@@ -1,6 +1,11 @@
 import React from 'react';
+
+//routes
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
+
+//context
+import { withAccess } from './auth/authContext';
 
 const Story = props => (
   <div>
@@ -10,4 +15,4 @@ const Story = props => (
   </div>
 );
 
-export default Story;
+export default withAccess()(Story);
