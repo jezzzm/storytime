@@ -133,6 +133,8 @@ class Create extends Component {
         console.log('created: ', id);
         this.props.creation.updateID(id);
         this.setState({isSaving: false});
+        this.props.authUser.fetchUserData(this.props.authUser.info.uid);
+
       })
     } else { //update old entry
       this.props.firebase.saveStory({
@@ -145,9 +147,10 @@ class Create extends Component {
         console.log(this.props.creation)
 
         this.setState({isSaving: false});
+        this.props.authUser.fetchUserData(this.props.authUser.info.uid);
+
       })
     }
-    this.props.authUser.fetchStories();
   }
 
   _handleClear = () => {

@@ -39,31 +39,26 @@ const StyledMain = styled.main`
   flex: 1;
 `;
 
-const App = props =>  {
-  console.log(props);
-  return (
-    <Router>
-      <StyledContainer>
-        <Navigation />
-        <StyledMain>
-          <Route exact path={ROUTES.NEW} component={New} />
-          <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
-          <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
-          <Route exact path={ROUTES.FORGOT} component={PasswordForgot} />
-          <Route exact path={ROUTES.CHANGE} component={PasswordChange} />
-          <Route exact path={ROUTES.ACCOUNT} component={Account} />
-          <Route exact path={ROUTES.STORIES} component={Stories} />
-          <Route exact path={ROUTES.STORY} component={Story} />
-          <Route exact path={ROUTES.EDIT} component={Edit} />
+const App = props => (
+  <Router>
+    <StyledContainer>
+      <Navigation />
+      <StyledMain>
+        <Route exact path={ROUTES.NEW} component={New} />
+        <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
+        <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+        <Route exact path={ROUTES.FORGOT} component={PasswordForgot} />
+        <Route exact path={ROUTES.CHANGE} component={PasswordChange} />
+        <Route exact path={ROUTES.ACCOUNT} component={Account} />
+        <Route exact path={ROUTES.STORIES} component={Stories} />
+        <Route exact path={ROUTES.STORY} component={Story} />
+        <Route exact path={ROUTES.EDIT} component={Edit} />
 
-          <Route exact path={ROUTES.HELP} component={Help} />
-          <Route exact path={ROUTES.LANDING} component={Landing} />
-        </StyledMain>
-      </StyledContainer>
-    </Router>
-  );
-}
-
-
+        <Route exact path={ROUTES.HELP} component={Help} />
+        <Route exact path={ROUTES.LANDING} component={Landing} />
+      </StyledMain>
+    </StyledContainer>
+  </Router>
+);
 
 export default withAuthProvider(withCreationProvider(App));
