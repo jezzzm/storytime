@@ -4,15 +4,19 @@ import { withFirebase } from '../../firebase';
 import { GoogleSignIn } from './SignIn';
 import * as ROUTES from '../../constants/routes'
 
-
+import Container from '../general/Container';
+import InputGeneral from '../general/InputGeneral'
+import ButtonGreen from '../general/ButtonGreen';
+import ButtonBlue from '../general/ButtonBlue';
+import AuthLink from '../general/AuthLink';
 
 const SignUp = () => (
-  <div>
-    <h1>Sign Up</h1>
+  <Container>
+    <h1>Create Account</h1>
     <SignUpForm />
     <GoogleSignIn />
     <SignInLink />
-  </div>
+  </Container>
 );
 
 
@@ -65,8 +69,9 @@ class SignUpFormBase extends Component {
       username === '';
 
     return (
-      <form onSubmit={this._handleSubmit}>
-        <input
+      <form onSubmit={this._handleSubmit} style={{margin: '2em 0'}} >
+        <InputGeneral
+            style={{display: 'block', margin: '1em 0'}}
             name="username"
             value={username}
             onChange={this._handleChange}
@@ -74,7 +79,8 @@ class SignUpFormBase extends Component {
             placeholder="Username"
             autoComplete="on"
           />
-          <input
+        <InputGeneral
+            style={{display: 'block', margin: '1em 0'}}
             name="email"
             value={email}
             onChange={this._handleChange}
@@ -82,7 +88,8 @@ class SignUpFormBase extends Component {
             placeholder="Email Address"
             autoComplete="on"
           />
-          <input
+        <InputGeneral
+            style={{display: 'block', margin: '1em 0'}}
             name="password"
             value={password}
             onChange={this._handleChange}
@@ -90,7 +97,8 @@ class SignUpFormBase extends Component {
             placeholder="Password"
             autoComplete="on"
           />
-          <input
+        <InputGeneral
+            style={{display: 'block', margin: '1em 0'}}
             name="passwordConf"
             value={passwordConf}
             onChange={this._handleChange}
@@ -98,14 +106,14 @@ class SignUpFormBase extends Component {
             placeholder="Confirm Password"
             autoComplete="on"
           />
-        <button type="submit" disabled={isInvalid}>Sign Up</button>
+        <button type="submit" disabled={isInvalid}>Create</button>
         {error && <p>{error.message}</p>}
       </form>
     );
   }
 }
 
-const SignInLink = () => <p>Already have an account? <Link to="/signin">Sign In</Link></p>;
+const SignInLink = () => <p>Already have an account? <AuthLink to="/signin">Sign In</AuthLink></p>;
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 export default SignUp;

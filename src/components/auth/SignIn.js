@@ -9,15 +9,20 @@ import { withFirebase } from '../../firebase';
 
 //components
 import SpinnerBlue from '../general/SpinnerBlue';
+import Container from '../general/Container';
+import InputGeneral from '../general/InputGeneral'
+import ButtonGreen from '../general/ButtonGreen';
+import ButtonBlue from '../general/ButtonBlue';
+import AuthLink from '../general/AuthLink';
 
 const SignIn = () => (
-  <div>
+  <Container>
     <h1>Sign In</h1>
     <SignInForm />
     <ForgotLink />
     <GoogleSignIn />
     <SignUpLink />
-  </div>
+  </Container>
 );
 
 const INITIAL_STATE = {
@@ -52,7 +57,7 @@ class SignInFormBase extends Component {
     const isInvalid = password === '' || email === '';
     return (
       <form onSubmit={this._handleSubmit}>
-        <input
+        <InputGeneral
           name="email"
           value={email}
           onChange={this._handleChange}
@@ -60,7 +65,7 @@ class SignInFormBase extends Component {
           placeholder="Email Address"
           autoComplete="on"
         />
-        <input
+      <InputGeneral
           name="password"
           value={password}
           onChange={this._handleChange}
@@ -68,7 +73,7 @@ class SignInFormBase extends Component {
           placeholder="Password"
           autoComplete="on"
         />
-        <button disabled={isInvalid} type="submit">
+      <button disabled={isInvalid} type="submit">
           Sign In
         </button>
         {error && <p>{error.message}</p>}
@@ -78,9 +83,9 @@ class SignInFormBase extends Component {
   }
 }
 
-const ForgotLink = () => <p><Link to={ROUTES.FORGOT}>Forgot Password?</Link></p>;
+const ForgotLink = () => <p><AuthLink to={ROUTES.FORGOT}>Forgot Password?</AuthLink></p>;
 
-const SignUpLink = () => <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>;
+const SignUpLink = () => <p>Don't have an account? <AuthLink to="/signup">Sign Up</AuthLink></p>;
 
 const GoogleSignInBase = ({ firebase, history }) => {
   const _handleGoogle = e => {
@@ -91,7 +96,7 @@ const GoogleSignInBase = ({ firebase, history }) => {
       .catch(console.log)
   }
 
-  return <p><button onClick={_handleGoogle}>Sign in with Google</button></p>;
+  return <p><ButtonBlue to="#" onClick={_handleGoogle}>Sign in with Google</ButtonBlue></p>;
 };
 
 export const GoogleSignIn = withRouter(withFirebase(GoogleSignInBase));
