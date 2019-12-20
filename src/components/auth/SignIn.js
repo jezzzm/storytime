@@ -11,8 +11,8 @@ import { withFirebase } from '../../firebase';
 import SpinnerBlue from '../general/SpinnerBlue';
 import Container from '../general/Container';
 import InputGeneral from '../general/InputGeneral'
-import ButtonGreen from '../general/ButtonGreen';
 import ButtonBlue from '../general/ButtonBlue';
+import ButtonSubmit from '../general/ButtonSubmit';
 import AuthLink from '../general/AuthLink';
 
 const SignIn = () => (
@@ -73,9 +73,9 @@ class SignInFormBase extends Component {
           placeholder="Password"
           autoComplete="on"
         />
-      <button disabled={isInvalid} type="submit">
+        <ButtonSubmit disabled={isInvalid} type="submit">
           Sign In
-        </button>
+        </ButtonSubmit>
         {error && <p>{error.message}</p>}
         {isLoggingIn && <SpinnerBlue />}
       </form>
@@ -85,7 +85,7 @@ class SignInFormBase extends Component {
 
 const ForgotLink = () => <p><AuthLink to={ROUTES.FORGOT}>Forgot Password?</AuthLink></p>;
 
-const SignUpLink = () => <p>Don't have an account? <AuthLink to="/signup">Sign Up</AuthLink></p>;
+const SignUpLink = () => <p>Don't have an account? <AuthLink to="/signup">Create one!</AuthLink></p>;
 
 const GoogleSignInBase = ({ firebase, history }) => {
   const _handleGoogle = e => {

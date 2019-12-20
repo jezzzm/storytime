@@ -6,7 +6,7 @@ import * as ROUTES from '../../constants/routes'
 
 import Container from '../general/Container';
 import InputGeneral from '../general/InputGeneral'
-import ButtonGreen from '../general/ButtonGreen';
+import ButtonSubmit from '../general/ButtonSubmit';
 import ButtonBlue from '../general/ButtonBlue';
 import AuthLink from '../general/AuthLink';
 
@@ -106,7 +106,7 @@ class SignUpFormBase extends Component {
             placeholder="Confirm Password"
             autoComplete="on"
           />
-        <button type="submit" disabled={isInvalid}>Create</button>
+        <ButtonSubmit type="submit" disabled={isInvalid}>Create</ButtonSubmit>
         {error && <p>{error.message}</p>}
       </form>
     );
