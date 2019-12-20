@@ -33,7 +33,7 @@ export default class Firebase {
   doPasswordUpdate = password => this.auth.currentUser.updatePassword(password);
 
   //user db methods
-  getUser = uid => this.db.collection('users').doc(uid).get();
+  user = uid => this.db.collection('users').doc(uid);
   users = () => this.db.collection('users').get();
 
   //drawing db methods

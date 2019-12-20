@@ -35,7 +35,8 @@ const withAuthProvider = InnerComponent => {
             stories[doc.id] = doc.data();
           })
           this.props.firebase
-            .getUser(uid)
+            .user(uid)
+            .get()
             .then(userDoc => {
               const username = userDoc.data().username
               this.setState({
